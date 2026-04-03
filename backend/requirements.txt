@@ -1,0 +1,5 @@
+fastapi==0.133.1
+SQLAlchemy==2.0.47
+pydantic-settings>=2.11,<3.0
+uvicorn>=0.38,<0.39
+httpx>=0.28,<0.29

@@ -1,0 +1,1 @@
+"""Loyalty program configuration module."""

@@ -1,0 +1,1 @@
+"""Loyalty wallet module."""
