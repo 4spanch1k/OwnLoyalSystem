@@ -41,6 +41,7 @@ engineering/
   system-overview.md
   loyalty-program-strategy-and-rollout.md
   loyalty-pilot-policy-v1.md
+  loyalty-domain-model-and-api.md
   modules-and-boundaries.md
   loyalty-ledger-and-policy.md
   rbac-events-and-workflows.md

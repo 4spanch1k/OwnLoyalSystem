@@ -17,6 +17,7 @@
 
   - `engineering/loyalty-program-strategy-and-rollout.md`
   - `engineering/loyalty-pilot-policy-v1.md`
+  - `engineering/loyalty-domain-model-and-api.md`
   - `engineering/architecture.md`
   - `engineering/loyalty-ledger-and-policy.md`
   
