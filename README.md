@@ -8,4 +8,15 @@
   Run `npm i` to install the dependencies.
 
   Run `npm run dev` to start the development server.
+
+  ## Documentation
+
+  Key engineering documents live in `engineering/`.
+
+  Start with:
+
+  - `engineering/loyalty-program-strategy-and-rollout.md`
+  - `engineering/loyalty-pilot-policy-v1.md`
+  - `engineering/architecture.md`
+  - `engineering/loyalty-ledger-and-policy.md`
   

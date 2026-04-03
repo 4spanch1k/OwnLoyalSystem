@@ -39,6 +39,8 @@ engineering/
   architecture.md
   file-structure.md
   system-overview.md
+  loyalty-program-strategy-and-rollout.md
+  loyalty-pilot-policy-v1.md
   modules-and-boundaries.md
   loyalty-ledger-and-policy.md
   rbac-events-and-workflows.md

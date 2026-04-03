@@ -20,6 +20,10 @@ import {
   X,
   TrendingUp,
   AlertCircle,
+  ShieldCheck,
+  Wallet,
+  CirclePercent,
+  Timer,
 } from "lucide-react";
 
 /* ── Types ── */
@@ -80,15 +84,72 @@ const SERVICES: Service[] = [
   { id: 4, name: "Консультация", visits: 1, lastDate: "20 декабря 2025", icon: "💬" },
 ];
 
-type NavSection = "main" | "account" | "language" | "theme" | "appointments" | "book";
+type NavSection = "main" | "bonuses" | "account" | "language" | "theme" | "appointments" | "book";
 
 const NAV_ITEMS: { id: NavSection; label: string; icon: React.ElementType }[] = [
   { id: "main", label: "Мой кабинет", icon: LayoutDashboard },
+  { id: "bonuses", label: "Как работают бонусы", icon: Gift },
   { id: "account", label: "Данные аккаунта", icon: User },
   { id: "language", label: "Язык интерфейса", icon: Globe },
   { id: "theme", label: "Тема", icon: Moon },
   { id: "appointments", label: "Мои записи", icon: CalendarCheck },
   { id: "book", label: "Записаться", icon: CalendarPlus },
+];
+
+const BONUS_STEPS = [
+  {
+    icon: CreditCard,
+    title: "1. Оплатили приём",
+    description: "После оплаты подходящей услуги система видит платёж и готовит начисление.",
+  },
+  {
+    icon: Gift,
+    title: "2. Получили бонусы",
+    description: "На бонусный счёт возвращается 5% от суммы оплаченной услуги.",
+  },
+  {
+    icon: Wallet,
+    title: "3. Использовали позже",
+    description: "На следующем подходящем визите можно списать до 20% суммы чека.",
+  },
+];
+
+const BONUS_RULES = [
+  {
+    icon: CirclePercent,
+    title: "Сколько начисляется",
+    description: "Обычно мы начисляем 5% бонусами после подтверждённой оплаты.",
+  },
+  {
+    icon: Wallet,
+    title: "Как списать",
+    description: "Бонусами можно оплатить часть следующего визита, но не больше 20% от его стоимости.",
+  },
+  {
+    icon: Timer,
+    title: "Срок действия",
+    description: "Бонусы не лежат бесконечно. Их лучше использовать в течение 180 дней.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Где есть ограничения",
+    description: "На отдельные услуги со спецусловиями бонусы могут не начисляться или не списываться. Это всегда видно заранее.",
+  },
+];
+
+const BONUS_FAQ = [
+  {
+    question: "Когда бонусы появляются на счёте?",
+    answer: "После того как оплата подтверждена. Обычно это происходит вскоре после визита.",
+  },
+  {
+    question: "Можно ли потратить бонусы сразу в тот же день?",
+    answer: "Нет, они работают как благодарность за визит и используются на следующем подходящем приёме.",
+  },
+  {
+    question: "Если услуг несколько, бонусы считаются по всей сумме?",
+    answer: "Да, если услуги участвуют в программе. Если часть услуги не участвует, это будет видно при оплате.",
+  },
 ];
 
 /* ── Sub-components ── */
@@ -592,6 +653,141 @@ function AccountTab() {
   );
 }
 
+function BonusesGuideTab() {
+  return (
+    <div className="flex flex-col gap-5">
+      <div
+        className="rounded-2xl p-6 relative overflow-hidden"
+        style={{ background: "linear-gradient(135deg, #1B6CA8 0%, #0F4C7A 100%)" }}
+      >
+        <div className="absolute -right-10 -top-10 w-36 h-36 rounded-full opacity-10" style={{ backgroundColor: "#FFFFFF" }} />
+        <div className="absolute right-6 bottom-6 w-14 h-14 rounded-full opacity-10" style={{ backgroundColor: "#4FC3D4" }} />
+        <div className="max-w-xl relative z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-4" style={{ backgroundColor: "rgba(255,255,255,0.14)" }}>
+            <Gift size={14} color="#FFFFFF" />
+            <span style={{ fontSize: "12px", color: "#FFFFFF", fontWeight: 600 }}>Aster Bonus</span>
+          </div>
+          <h1 style={{ fontWeight: 700, fontSize: "24px", lineHeight: 1.2, color: "#FFFFFF" }}>
+            Бонусы работают просто:
+            <br />
+            лечитесь, получаете часть суммы обратно и используете её на следующем визите.
+          </h1>
+          <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.72)", marginTop: "12px", lineHeight: 1.5 }}>
+            Мы сделали программу без сложных правил и мелкого шрифта. Всё, что важно пациенту, помещается в несколько простых шагов.
+          </p>
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-3 gap-4">
+        {BONUS_STEPS.map((step) => {
+          const Icon = step.icon;
+
+          return (
+            <div
+              key={step.title}
+              className="rounded-2xl p-5"
+              style={{ backgroundColor: "#FFFFFF", border: "1px solid #E8EEF4" }}
+            >
+              <div
+                className="w-11 h-11 rounded-2xl flex items-center justify-center mb-4"
+                style={{ backgroundColor: "#EBF4FB", color: "#1B6CA8" }}
+              >
+                <Icon size={18} />
+              </div>
+              <div style={{ fontSize: "15px", fontWeight: 600, color: "#1A2B3C", marginBottom: "8px" }}>
+                {step.title}
+              </div>
+              <p style={{ fontSize: "13px", color: "#6B8FA8", lineHeight: 1.6 }}>{step.description}</p>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-5">
+        <div className="rounded-2xl p-5" style={{ backgroundColor: "#FFFFFF", border: "1px solid #E8EEF4" }}>
+          <div className="flex items-center gap-2 mb-4">
+            <Gift size={16} style={{ color: "#1B6CA8" }} />
+            <span style={{ fontWeight: 600, fontSize: "15px", color: "#1A2B3C" }}>Что важно знать</span>
+          </div>
+          <div className="flex flex-col gap-3">
+            {BONUS_RULES.map((rule) => {
+              const Icon = rule.icon;
+
+              return (
+                <div
+                  key={rule.title}
+                  className="rounded-xl p-4 flex items-start gap-3"
+                  style={{ backgroundColor: "#F7F9FC", border: "1px solid #E8EEF4" }}
+                >
+                  <div
+                    className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
+                    style={{ backgroundColor: "#EBF4FB", color: "#1B6CA8" }}
+                  >
+                    <Icon size={16} />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: "14px", fontWeight: 600, color: "#1A2B3C" }}>{rule.title}</div>
+                    <div style={{ fontSize: "13px", color: "#6B8FA8", lineHeight: 1.55, marginTop: "4px" }}>
+                      {rule.description}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-5">
+          <div className="rounded-2xl p-5" style={{ backgroundColor: "#FFFFFF", border: "1px solid #E8EEF4" }}>
+            <div className="flex items-center gap-2 mb-4">
+              <TrendingUp size={16} style={{ color: "#1B6CA8" }} />
+              <span style={{ fontWeight: 600, fontSize: "15px", color: "#1A2B3C" }}>Простой пример</span>
+            </div>
+            <div className="rounded-xl p-4" style={{ backgroundColor: "#F0F5FA" }}>
+              <div style={{ fontSize: "12px", color: "#6B8FA8", marginBottom: "8px" }}>Если вы оплатили лечение на 40 000 ₽</div>
+              <div style={{ fontSize: "24px", fontWeight: 700, color: "#1A2B3C" }}>2 000 бонусов</div>
+              <div style={{ fontSize: "13px", color: "#4A6480", marginTop: "6px", lineHeight: 1.5 }}>
+                появятся на вашем счёте после подтверждения оплаты.
+              </div>
+            </div>
+            <div
+              className="rounded-xl p-4 mt-3"
+              style={{ backgroundColor: "#FFF8EC", border: "1px solid #FCDEA3" }}
+            >
+              <div style={{ fontSize: "13px", fontWeight: 600, color: "#8A5A00" }}>Как использовать</div>
+              <div style={{ fontSize: "13px", color: "#A07030", marginTop: "6px", lineHeight: 1.55 }}>
+                Если следующий визит стоит 20 000 ₽, списать можно до 4 000 бонусов.
+                Если у вас на счёте только 2 000, значит используете все 2 000.
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-2xl p-5" style={{ backgroundColor: "#FFFFFF", border: "1px solid #E8EEF4" }}>
+            <div className="flex items-center gap-2 mb-4">
+              <AlertCircle size={16} style={{ color: "#1B6CA8" }} />
+              <span style={{ fontWeight: 600, fontSize: "15px", color: "#1A2B3C" }}>Частые вопросы</span>
+            </div>
+            <div className="flex flex-col gap-3">
+              {BONUS_FAQ.map((item) => (
+                <div
+                  key={item.question}
+                  className="rounded-xl p-4"
+                  style={{ backgroundColor: "#F7F9FC", border: "1px solid #E8EEF4" }}
+                >
+                  <div style={{ fontSize: "14px", fontWeight: 600, color: "#1A2B3C" }}>{item.question}</div>
+                  <div style={{ fontSize: "13px", color: "#6B8FA8", lineHeight: 1.55, marginTop: "6px" }}>
+                    {item.answer}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ── Main Dashboard ── */
 interface Props {
   onNavigate: (page: Page) => void;
@@ -664,6 +860,8 @@ export function Dashboard({ onNavigate }: Props) {
             <AccountTab />
           </div>
         );
+      case "bonuses":
+        return <BonusesGuideTab />;
       case "language":
         return (
           <div className="rounded-2xl p-6" style={{ backgroundColor: "#FFFFFF", border: "1px solid #E8EEF4" }}>
