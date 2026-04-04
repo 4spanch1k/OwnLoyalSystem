@@ -15,6 +15,7 @@ class OpenApiContractTestCase(unittest.TestCase):
         paths = schema["paths"]
 
         self.assertIn("/api/v1/loyalty/program", paths)
+        self.assertIn("/api/v1/payments/{payment_id}/confirm", paths)
         self.assertIn("/api/v1/patients/{patient_id}/wallet", paths)
         self.assertIn("/api/v1/patients/{patient_id}/ledger", paths)
         self.assertIn("/api/v1/redemptions/quote", paths)

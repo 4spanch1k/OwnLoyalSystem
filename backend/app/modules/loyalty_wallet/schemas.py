@@ -1,17 +1,17 @@
 from datetime import datetime
+from decimal import Decimal
 
 from pydantic import BaseModel
 
 
 class WalletSummaryResponse(BaseModel):
     patient_id: str
-    wallet_id: str
-    available_balance: int
-    pending_balance: int
+    available_balance: Decimal
+    lifetime_accrued: Decimal
+    lifetime_redeemed: Decimal
+    lifetime_expired: Decimal
     currency_code: str
-    next_expiry_at: datetime | None
-    next_expiry_amount: int | None
-    program_name: str
+    updated_at: datetime | None
 
 
 class BonusRulesResponse(BaseModel):

@@ -4,7 +4,7 @@ from datetime import datetime
 from sqlalchemy import CheckConstraint, DateTime, ForeignKey, ForeignKeyConstraint, Index, JSON, String, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 
-from backend.app.db.base import Base, IdMixin, TenantScopedMixin, TimestampMixin, ZERO_MONEY, money_column
+from backend.app.db.base import Base, IdMixin, TenantScopedMixin, TimestampMixin, ZERO_MONEY, money_column, utc_now
 
 
 class LoyaltyProgram(Base, IdMixin, TenantScopedMixin, TimestampMixin):
@@ -40,7 +40,7 @@ class LoyaltyPolicyVersion(Base, IdMixin, TenantScopedMixin):
     is_active: Mapped[bool] = mapped_column(default=False, nullable=False)
     effective_from: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     effective_to: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now, nullable=False)
 
     __table_args__ = (
         ForeignKeyConstraint(["tenant_id"], ["tenants.id"], name="fk_loyalty_policy_versions_tenant_id_tenants"),
@@ -64,7 +64,7 @@ class LoyaltyPolicyServiceRule(Base, IdMixin, TenantScopedMixin):
     service_category: Mapped[str] = mapped_column(String(64), nullable=False)
     accrual_allowed: Mapped[bool] = mapped_column(default=True, nullable=False)
     redemption_allowed: Mapped[bool] = mapped_column(default=True, nullable=False)
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now, nullable=False)
 
     __table_args__ = (
         ForeignKeyConstraint(["tenant_id"], ["tenants.id"], name="fk_loyalty_policy_service_rules_tenant_id_tenants"),
@@ -91,7 +91,7 @@ class PatientWallet(Base, IdMixin, TenantScopedMixin):
     lifetime_accrued: Mapped[Decimal] = money_column(default=ZERO_MONEY)
     lifetime_redeemed: Mapped[Decimal] = money_column(default=ZERO_MONEY)
     lifetime_expired: Mapped[Decimal] = money_column(default=ZERO_MONEY)
-    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now, nullable=False)
 
     __table_args__ = (
         ForeignKeyConstraint(["tenant_id"], ["tenants.id"], name="fk_patient_wallets_tenant_id_tenants"),
@@ -126,7 +126,7 @@ class LoyaltyLedgerEntry(Base, IdMixin, TenantScopedMixin):
     idempotency_key: Mapped[str] = mapped_column(String(255), nullable=False)
     reason_code: Mapped[str | None] = mapped_column(String(64))
     metadata_json: Mapped[dict[str, object] | None] = mapped_column(JSON)
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now, nullable=False)
 
     __table_args__ = (
         ForeignKeyConstraint(["tenant_id"], ["tenants.id"], name="fk_loyalty_ledger_entries_tenant_id_tenants"),

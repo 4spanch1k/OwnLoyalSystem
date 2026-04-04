@@ -1,0 +1,18 @@
+class LoyaltyDomainError(Exception):
+    """Base class for loyalty domain failures."""
+
+
+class PaymentNotFoundError(LoyaltyDomainError):
+    """Raised when a tenant-scoped payment does not exist."""
+
+
+class PatientNotFoundError(LoyaltyDomainError):
+    """Raised when a tenant-scoped patient does not exist."""
+
+
+class PolicyNotFoundError(LoyaltyDomainError):
+    """Raised when no active policy can be resolved for a payment."""
+
+
+class PaymentStateError(LoyaltyDomainError):
+    """Raised when a payment cannot enter the requested loyalty flow."""

@@ -1,5 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends, Header, HTTPException, status
+from sqlalchemy.orm import Session
 
+from backend.app.db.session import get_db
 from backend.app.modules.loyalty_ledger.schemas import (
     LedgerFeedResponse,
     ManualAdjustmentCreateRequest,
@@ -10,6 +12,7 @@ from backend.app.modules.loyalty_ledger.schemas import (
     RedemptionQuoteResponse,
 )
 from backend.app.modules.loyalty_ledger.service import LoyaltyLedgerService
+from backend.app.services.loyalty.errors import PatientNotFoundError
 from backend.app.shared.api.errors import not_implemented
 
 router = APIRouter(tags=["loyalty-ledger"])
@@ -17,8 +20,15 @@ service = LoyaltyLedgerService()
 
 
 @router.get("/patients/{patient_id}/ledger", response_model=LedgerFeedResponse)
-async def get_patient_ledger(patient_id: str) -> LedgerFeedResponse:
-    return service.get_patient_ledger(patient_id=patient_id)
+def get_patient_ledger(
+    patient_id: str,
+    db: Session = Depends(get_db),
+    tenant_id: str = Header(alias="X-Tenant-Id"),
+) -> LedgerFeedResponse:
+    try:
+        return service.get_patient_ledger(db=db, tenant_id=tenant_id, patient_id=patient_id)
+    except PatientNotFoundError as error:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(error)) from error
 
 
 @router.post("/redemptions/quote", response_model=RedemptionQuoteResponse)

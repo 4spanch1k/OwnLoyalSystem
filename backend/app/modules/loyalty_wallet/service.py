@@ -1,22 +1,14 @@
-from datetime import datetime, timezone
+from sqlalchemy.orm import Session
 
 from backend.app.modules.loyalty_wallet.schemas import BonusRulesResponse, WalletSummaryResponse
+from backend.app.services.loyalty.readers import get_patient_wallet_summary
 
 
 class LoyaltyWalletService:
-    """Read-oriented wallet contract scaffold."""
+    """Read-oriented wallet service for Slice 1."""
 
-    def get_wallet_summary(self, patient_id: str) -> WalletSummaryResponse:
-        return WalletSummaryResponse(
-            patient_id=patient_id,
-            wallet_id="wallet-demo",
-            available_balance=124000,
-            pending_balance=0,
-            currency_code="KZT",
-            next_expiry_at=datetime(2026, 9, 30, tzinfo=timezone.utc),
-            next_expiry_amount=24000,
-            program_name="Aster Bonus",
-        )
+    def get_wallet_summary(self, db: Session, tenant_id: str, patient_id: str) -> WalletSummaryResponse:
+        return get_patient_wallet_summary(db=db, tenant_id=tenant_id, patient_id=patient_id)
 
     def get_bonus_rules(self) -> BonusRulesResponse:
         return BonusRulesResponse(

@@ -1,18 +1,19 @@
 from datetime import datetime
+from decimal import Decimal
 
 from pydantic import BaseModel, Field
 
 
 class LedgerEntryResponse(BaseModel):
     ledger_entry_id: str
-    operation_type: str
-    amount_delta: int
-    balance_after: int
-    effective_at: datetime
-    expires_at: datetime | None
-    reason_text: str | None
-    related_visit_id: str | None
-    related_payment_id: str | None
+    entry_type: str
+    amount: Decimal
+    balance_after: Decimal
+    payment_id: str | None
+    reason_code: str | None
+    currency_code: str
+    created_at: datetime
+    status: str
 
 
 class LedgerFeedResponse(BaseModel):
@@ -29,10 +30,10 @@ class RedemptionQuoteRequest(BaseModel):
 
 
 class RedemptionQuoteResponse(BaseModel):
-    available_balance: int
-    max_redeemable_amount: int
-    eligible_invoice_amount: int
-    redemption_cap_amount: int
+    available_balance: Decimal
+    max_redeemable_amount: Decimal
+    eligible_invoice_amount: Decimal
+    redemption_cap_amount: Decimal
     policy_version_id: str
     warnings: list[str] = Field(default_factory=list)
 

@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy import DateTime, ForeignKeyConstraint, Index, JSON, String, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 
-from backend.app.db.base import Base, IdMixin, TenantScopedMixin
+from backend.app.db.base import Base, IdMixin, TenantScopedMixin, utc_now
 
 
 class AuditLog(Base, IdMixin, TenantScopedMixin):
@@ -14,7 +14,7 @@ class AuditLog(Base, IdMixin, TenantScopedMixin):
     entity_id: Mapped[str] = mapped_column(String(36), nullable=False)
     action: Mapped[str] = mapped_column(String(64), nullable=False)
     payload_json: Mapped[dict[str, object] | None] = mapped_column(JSON)
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now, nullable=False)
 
     __table_args__ = (
         ForeignKeyConstraint(["tenant_id"], ["tenants.id"], name="fk_audit_logs_tenant_id_tenants"),
