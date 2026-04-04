@@ -225,6 +225,13 @@ Expected result after success:
 - the updated balance is visible in the wallet summary
 - a new ledger row appears in history
 
+Important:
+
+- after this step the demo dataset is no longer pristine
+- the canonical seeded wallet starts at `5.00`
+- any successful manual adjustment mutates the demo state for later walkthroughs
+- if you need to show the original seeded state again, reset the database before the next clean demo pass
+
 ## How To Verify Refetch
 
 Use this exact smoke check during the demo:
@@ -237,6 +244,24 @@ Use this exact smoke check during the demo:
 6. Confirm that `balance_after` in the latest row matches the visible wallet balance.
 
 This is the key proof that the screen is reading backend state after mutation.
+
+## Reset To Canonical Seeded State
+
+If you already ran the manual adjustment smoke and want to return to the canonical wallet balance `5.00`, rebuild the demo database from scratch:
+
+```bash
+/opt/homebrew/opt/postgresql@16/bin/dropdb azamatai
+/opt/homebrew/opt/postgresql@16/bin/createdb azamatai
+export DATABASE_URL='postgresql+psycopg://aspanch1k@/azamatai?host=/tmp'
+.venv/bin/python -m alembic -c backend/alembic.ini upgrade head
+.venv/bin/python backend/scripts/seed_loyalty_demo.py
+```
+
+Expected result after reset:
+
+- wallet balance returns to `5.00`
+- ledger contains only the canonical seeded accrual row
+- the next smoke walkthrough starts from the documented baseline again
 
 ## Recommended Demo Script
 
