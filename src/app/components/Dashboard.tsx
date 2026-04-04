@@ -143,21 +143,6 @@ const BONUS_RULES = [
   },
 ];
 
-const BONUS_FAQ = [
-  {
-    question: "Когда бонусы появляются на счёте?",
-    answer: "После того как оплата подтверждена. Обычно это происходит вскоре после визита.",
-  },
-  {
-    question: "Можно ли потратить бонусы сразу в тот же день?",
-    answer: "Нет, они работают как благодарность за визит и используются на следующем подходящем приёме.",
-  },
-  {
-    question: "Если услуг несколько, бонусы считаются по всей сумме?",
-    answer: "Да, если услуги участвуют в программе. Если часть услуги не участвует, это будет видно при оплате.",
-  },
-];
-
 const FAQ_ITEMS = [
   {
     category: "Бонусная программа",
@@ -806,7 +791,7 @@ function BonusesGuideTab() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-5">
+        <div>
           <div className="rounded-2xl p-5" style={{ backgroundColor: "#FFFFFF", border: "1px solid #E8EEF4" }}>
             <div className="flex items-center gap-2 mb-4">
               <TrendingUp size={16} style={{ color: "#1B6CA8" }} />
@@ -828,27 +813,6 @@ function BonusesGuideTab() {
                 Если следующий визит стоит 20 000 ₽, списать можно до 4 000 бонусов.
                 Если у вас на счёте только 2 000, значит используете все 2 000.
               </div>
-            </div>
-          </div>
-
-          <div className="rounded-2xl p-5" style={{ backgroundColor: "#FFFFFF", border: "1px solid #E8EEF4" }}>
-            <div className="flex items-center gap-2 mb-4">
-              <AlertCircle size={16} style={{ color: "#1B6CA8" }} />
-              <span style={{ fontWeight: 600, fontSize: "15px", color: "#1A2B3C" }}>Частые вопросы</span>
-            </div>
-            <div className="flex flex-col gap-3">
-              {BONUS_FAQ.map((item) => (
-                <div
-                  key={item.question}
-                  className="rounded-xl p-4"
-                  style={{ backgroundColor: "#F7F9FC", border: "1px solid #E8EEF4" }}
-                >
-                  <div style={{ fontSize: "14px", fontWeight: 600, color: "#1A2B3C" }}>{item.question}</div>
-                  <div style={{ fontSize: "13px", color: "#6B8FA8", lineHeight: 1.55, marginTop: "6px" }}>
-                    {item.answer}
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         </div>
