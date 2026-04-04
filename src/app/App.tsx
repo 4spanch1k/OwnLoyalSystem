@@ -7,10 +7,12 @@ import { DoctorsPage } from "./components/DoctorsPage";
 import { BookingPage } from "./components/BookingPage";
 import { ContactsPage } from "./components/ContactsPage";
 import { DoctorCabinet } from "./components/DoctorCabinet";
+import { StaffLoginPage } from "./components/StaffLoginPage";
 
 export type Page =
   | "public"
   | "cabinet"
+  | "staff-login"
   | "services"
   | "prices"
   | "doctors"
@@ -26,6 +28,8 @@ export default function App() {
   switch (page) {
     case "cabinet":
       return <Dashboard onNavigate={nav} />;
+    case "staff-login":
+      return <StaffLoginPage onNavigate={nav} />;
     case "services":
       return <ServicesPage onNavigate={nav} />;
     case "prices":

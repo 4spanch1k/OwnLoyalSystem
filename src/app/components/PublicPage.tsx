@@ -24,20 +24,13 @@ interface Props {
 export function PublicPage({ onNavigate }: Props) {
   const [activeTab, setActiveTab] = useState<"login" | "register">("login");
   const [showPassword, setShowPassword] = useState(false);
-  const [showStaffPassword, setShowStaffPassword] = useState(false);
 
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
   const [registerForm, setRegisterForm] = useState({ email: "", phone: "", password: "" });
-  const [staffForm, setStaffForm] = useState({ email: "", password: "" });
 
   const goToCabinet = (e: React.FormEvent) => {
     e.preventDefault();
     onNavigate("cabinet");
-  };
-
-  const goToDoctor = (e: React.FormEvent) => {
-    e.preventDefault();
-    onNavigate("doctor-cabinet");
   };
 
   return (
@@ -179,7 +172,7 @@ export function PublicPage({ onNavigate }: Props) {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 items-start">
+        <div className="grid md:grid-cols-[minmax(0,1.25fr)_minmax(280px,0.75fr)] gap-6 items-start">
           {/* Patient Auth Card */}
           <div
             className="rounded-3xl overflow-hidden"
@@ -269,6 +262,23 @@ export function PublicPage({ onNavigate }: Props) {
                   >
                     Войти в кабинет
                   </button>
+                  <div className="pt-1 text-center">
+                    <button
+                      type="button"
+                      onClick={() => onNavigate("staff-login")}
+                      className="transition-all"
+                      style={{
+                        backgroundColor: "transparent",
+                        color: "#6B8FA8",
+                        fontSize: "12px",
+                        fontWeight: 500,
+                        textDecoration: "underline",
+                        textUnderlineOffset: "3px",
+                      }}
+                    >
+                      Для сотрудников клиники
+                    </button>
+                  </div>
                 </form>
               ) : (
                 <form onSubmit={goToCabinet} className="flex flex-col gap-4">
@@ -332,73 +342,7 @@ export function PublicPage({ onNavigate }: Props) {
             </div>
           </div>
 
-          {/* Staff + Info column */}
           <div className="flex flex-col gap-5">
-            {/* Staff Login Card */}
-            <div
-              className="rounded-3xl overflow-hidden"
-              style={{ backgroundColor: "#FFFFFF", border: "1px solid #E8EEF4", boxShadow: "0 4px 24px rgba(27,108,168,0.06)" }}
-            >
-              <div
-                className="px-6 py-4 flex items-center gap-3"
-                style={{ background: "linear-gradient(135deg, #1A2B3C 0%, #1B4A6B 100%)" }}
-              >
-                <div
-                  className="w-8 h-8 rounded-lg flex items-center justify-center"
-                  style={{ backgroundColor: "rgba(255,255,255,0.12)" }}
-                >
-                  <Shield size={15} color="#C8E6F5" />
-                </div>
-                <div>
-                  <div style={{ color: "#FFFFFF", fontSize: "14px", fontWeight: 600 }}>Вход для сотрудников</div>
-                  <div style={{ color: "#7AAECA", fontSize: "11px" }}>Доступ только для персонала клиники</div>
-                </div>
-              </div>
-
-              <form onSubmit={goToDoctor} className="p-6 flex flex-col gap-4">
-                <div className="flex flex-col gap-1.5">
-                  <label style={{ fontSize: "13px", fontWeight: 500, color: "#4A6480" }}>Корпоративный email</label>
-                  <input
-                    type="email"
-                    placeholder="staff@asterdental.ru"
-                    value={staffForm.email}
-                    onChange={(e) => setStaffForm({ ...staffForm, email: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl outline-none"
-                    style={{ backgroundColor: "#F0F5FA", border: "1px solid #E0EAF3", fontSize: "14px", color: "#1A2B3C" }}
-                  />
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <label style={{ fontSize: "13px", fontWeight: 500, color: "#4A6480" }}>Пароль</label>
-                  <div className="relative">
-                    <input
-                      type={showStaffPassword ? "text" : "password"}
-                      placeholder="••••••••"
-                      value={staffForm.password}
-                      onChange={(e) => setStaffForm({ ...staffForm, password: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl outline-none pr-12"
-                      style={{ backgroundColor: "#F0F5FA", border: "1px solid #E0EAF3", fontSize: "14px", color: "#1A2B3C" }}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowStaffPassword(!showStaffPassword)}
-                      className="absolute right-3.5 top-1/2 -translate-y-1/2"
-                      style={{ color: "#6B8FA8" }}
-                    >
-                      {showStaffPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                    </button>
-                  </div>
-                </div>
-                <button
-                  type="submit"
-                  className="w-full py-3 rounded-xl transition-all"
-                  style={{ backgroundColor: "#1A2B3C", color: "#FFFFFF", fontSize: "14px", fontWeight: 600 }}
-                >
-                  Войти как сотрудник
-                </button>
-              </form>
-            </div>
-
-            {/* Benefits brief */}
             <div
               className="rounded-2xl p-5"
               style={{ backgroundColor: "#EBF4FB", border: "1px solid #D0E6F5" }}
