@@ -16,3 +16,7 @@ class PolicyNotFoundError(LoyaltyDomainError):
 
 class PaymentStateError(LoyaltyDomainError):
     """Raised when a payment cannot enter the requested loyalty flow."""
+
+
+class RedemptionConflictError(LoyaltyDomainError):
+    """Raised when a redemption request violates wallet or policy constraints."""

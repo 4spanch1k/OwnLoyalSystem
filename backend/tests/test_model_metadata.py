@@ -28,6 +28,7 @@ class ModelMetadataTestCase(unittest.TestCase):
             "loyalty_policy_service_rules",
             "patient_wallets",
             "loyalty_ledger_entries",
+            "loyalty_redemptions",
             "audit_logs",
         }
 
@@ -38,15 +39,20 @@ class ModelMetadataTestCase(unittest.TestCase):
         ledger_uniques = {
             tuple(constraint["column_names"]) for constraint in self.inspector.get_unique_constraints("loyalty_ledger_entries")
         }
+        redemption_uniques = {
+            tuple(constraint["column_names"]) for constraint in self.inspector.get_unique_constraints("loyalty_redemptions")
+        }
 
         self.assertIn(("tenant_id", "patient_id"), wallet_uniques)
         self.assertIn(("tenant_id", "idempotency_key"), ledger_uniques)
+        self.assertIn(("tenant_id", "idempotency_key"), redemption_uniques)
 
     def test_slice_one_indexes_exist(self) -> None:
         payments_indexes = {tuple(index["column_names"]) for index in self.inspector.get_indexes("payments")}
         payment_line_indexes = {tuple(index["column_names"]) for index in self.inspector.get_indexes("payment_lines")}
         wallet_indexes = {tuple(index["column_names"]) for index in self.inspector.get_indexes("patient_wallets")}
         ledger_indexes = {tuple(index["column_names"]) for index in self.inspector.get_indexes("loyalty_ledger_entries")}
+        redemption_indexes = {tuple(index["column_names"]) for index in self.inspector.get_indexes("loyalty_redemptions")}
         audit_indexes = {tuple(index["column_names"]) for index in self.inspector.get_indexes("audit_logs")}
 
         self.assertIn(("tenant_id", "patient_id"), payments_indexes)
@@ -55,6 +61,8 @@ class ModelMetadataTestCase(unittest.TestCase):
         self.assertIn(("tenant_id", "patient_id"), wallet_indexes)
         self.assertIn(("tenant_id", "patient_id", "created_at"), ledger_indexes)
         self.assertIn(("payment_id",), ledger_indexes)
+        self.assertIn(("tenant_id", "patient_id", "created_at"), redemption_indexes)
+        self.assertIn(("payment_id",), redemption_indexes)
         self.assertIn(("tenant_id", "entity_type", "entity_id"), audit_indexes)
 
 

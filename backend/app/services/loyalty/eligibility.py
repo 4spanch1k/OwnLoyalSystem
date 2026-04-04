@@ -20,6 +20,12 @@ class ActivePolicyContext:
     rules_by_category: Mapping[str, LoyaltyPolicyServiceRule]
 
 
+@dataclass(frozen=True)
+class RedemptionEligibilityResult:
+    eligible_total: Decimal
+    denied_categories: tuple[str, ...]
+
+
 def get_active_policy_for_payment(db: Session, tenant_id: str, branch_id: str) -> ActivePolicyContext:
     program_statement = (
         select(LoyaltyProgram)
@@ -70,3 +76,27 @@ def calculate_eligible_accrual_base(
             continue
         eligible_total += payment_line.line_total
     return eligible_total
+
+
+def calculate_redemption_eligibility(
+    payment_lines: Sequence[PaymentLine],
+    policy_rules: Mapping[str, LoyaltyPolicyServiceRule],
+    *,
+    default_allow: bool = True,
+) -> RedemptionEligibilityResult:
+    eligible_total = ZERO_MONEY
+    denied_categories: list[str] = []
+    for payment_line in payment_lines:
+        rule = policy_rules.get(payment_line.service_category)
+        if rule is None and not default_allow:
+            denied_categories.append(payment_line.service_category)
+            continue
+        if rule is not None and not rule.redemption_allowed:
+            denied_categories.append(payment_line.service_category)
+            continue
+        eligible_total += payment_line.line_total
+
+    return RedemptionEligibilityResult(
+        eligible_total=eligible_total,
+        denied_categories=tuple(sorted(set(denied_categories))),
+    )
