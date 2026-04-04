@@ -20,3 +20,7 @@ class PaymentStateError(LoyaltyDomainError):
 
 class RedemptionConflictError(LoyaltyDomainError):
     """Raised when a redemption request violates wallet or policy constraints."""
+
+
+class RollbackConflictError(LoyaltyDomainError):
+    """Raised when a refund-driven rollback cannot be safely applied."""

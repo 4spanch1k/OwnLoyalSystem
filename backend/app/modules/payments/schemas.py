@@ -44,3 +44,20 @@ class ApplyRedemptionResponse(BaseModel):
     status: str
     idempotency_key: str
     already_processed: bool
+
+
+class RefundPaymentRequest(BaseModel):
+    refunded_amount: Decimal = Field(ge=Decimal("0.01"))
+    refund_marker: str = Field(min_length=1, max_length=120)
+    reason: str | None = Field(default=None, max_length=255)
+
+
+class RefundPaymentResponse(BaseModel):
+    payment_id: str
+    rollback_amount: Decimal
+    wallet_balance_after: Decimal
+    ledger_entry_id: str | None
+    status: str
+    refunded_amount: Decimal
+    idempotency_key: str
+    already_processed: bool

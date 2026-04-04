@@ -17,6 +17,7 @@ class Payment(Base, IdMixin, TenantScopedMixin, TimestampMixin):
     status: Mapped[str] = mapped_column(String(32), nullable=False)
     currency: Mapped[str] = mapped_column(String(3), nullable=False)
     total_amount: Mapped[Decimal] = money_column()
+    refunded_amount: Mapped[Decimal] = money_column(default=ZERO_MONEY)
     confirmed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     refunded_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
@@ -40,6 +41,7 @@ class Payment(Base, IdMixin, TenantScopedMixin, TimestampMixin):
         UniqueConstraint("tenant_id", "id", name="uq_payments_tenant_id_id"),
         UniqueConstraint("tenant_id", "payment_number", name="uq_payments_tenant_payment_number"),
         CheckConstraint("total_amount >= 0", name="payments_total_amount_non_negative"),
+        CheckConstraint("refunded_amount >= 0", name="payments_refunded_amount_non_negative"),
         Index("ix_payments_tenant_id_patient_id", "tenant_id", "patient_id"),
         Index("ix_payments_tenant_id_status", "tenant_id", "status"),
     )

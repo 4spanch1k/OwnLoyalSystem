@@ -4,10 +4,13 @@ from backend.app.modules.payments.schemas import (
     ApplyRedemptionRequest,
     ApplyRedemptionResponse,
     ConfirmPaymentResponse,
+    RefundPaymentRequest,
+    RefundPaymentResponse,
     RedemptionQuoteResponse,
 )
 from backend.app.services.loyalty.accrual import confirm_payment as confirm_payment_accrual
 from backend.app.services.loyalty.redemption import apply_redemption, quote_redemption
+from backend.app.services.loyalty.rollback import process_payment_refunded
 
 
 class PaymentService:
@@ -66,6 +69,34 @@ class PaymentService:
             wallet_balance_after=result.wallet_balance_after,
             ledger_entry_id=result.ledger_entry_id,
             status=result.status,
+            idempotency_key=result.idempotency_key,
+            already_processed=result.already_processed,
+        )
+
+    def refund_payment(
+        self,
+        db: Session,
+        tenant_id: str,
+        payment_id: str,
+        payload: RefundPaymentRequest,
+        actor_user_id: str | None = None,
+    ) -> RefundPaymentResponse:
+        result = process_payment_refunded(
+            db=db,
+            tenant_id=tenant_id,
+            payment_id=payment_id,
+            refunded_amount=payload.refunded_amount,
+            refund_marker=payload.refund_marker,
+            reason=payload.reason,
+            actor_user_id=actor_user_id,
+        )
+        return RefundPaymentResponse(
+            payment_id=result.payment_id,
+            rollback_amount=result.rollback_amount,
+            wallet_balance_after=result.wallet_balance_after,
+            ledger_entry_id=result.ledger_entry_id,
+            status=result.refund_status,
+            refunded_amount=result.refunded_amount,
             idempotency_key=result.idempotency_key,
             already_processed=result.already_processed,
         )
