@@ -20,6 +20,7 @@ class OpenApiContractTestCase(unittest.TestCase):
         self.assertIn("/api/v1/payments/{payment_id}/redemption/quote", paths)
         self.assertIn("/api/v1/payments/{payment_id}/redemptions", paths)
         self.assertIn("/api/v1/patients/{patient_id}/wallet", paths)
+        self.assertIn("/api/v1/patients/{patient_id}/wallet/adjustments", paths)
         self.assertIn("/api/v1/patients/{patient_id}/ledger", paths)
         self.assertIn("/api/v1/redemptions/quote", paths)
         self.assertIn("/api/v1/me/bonus-rules", paths)

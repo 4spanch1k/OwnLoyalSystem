@@ -38,7 +38,7 @@ def confirm_payment(
     except (PaymentStateError, PolicyNotFoundError) as error:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(error)) from error
     except LoyaltyDomainError as error:
-        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(error)) from error
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_CONTENT, detail=str(error)) from error
 
 
 @router.post("/payments/{payment_id}/redemption/quote", response_model=RedemptionQuoteResponse)
@@ -76,7 +76,7 @@ def apply_payment_redemption(
     except (PaymentStateError, PolicyNotFoundError, RedemptionConflictError) as error:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(error)) from error
     except LoyaltyDomainError as error:
-        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(error)) from error
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_CONTENT, detail=str(error)) from error
 
 
 @router.post("/payments/{payment_id}/refund", response_model=RefundPaymentResponse)
@@ -100,4 +100,4 @@ def refund_payment(
     except (PaymentStateError, PolicyNotFoundError, RollbackConflictError) as error:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(error)) from error
     except LoyaltyDomainError as error:
-        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(error)) from error
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_CONTENT, detail=str(error)) from error

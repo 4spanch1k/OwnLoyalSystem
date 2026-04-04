@@ -52,18 +52,3 @@ class RedemptionCreateResponse(BaseModel):
     ledger_entry_id: str
     applied_amount: int
     balance_after: int
-
-
-class ManualAdjustmentCreateRequest(BaseModel):
-    patient_id: str
-    adjustment_type: str
-    amount: int = Field(ge=0)
-    currency_code: str = Field(min_length=3, max_length=3)
-    reason_code: str
-    reason_text: str
-
-
-class ManualAdjustmentCreateResponse(BaseModel):
-    adjustment_id: str
-    ledger_entry_id: str
-    balance_after: int

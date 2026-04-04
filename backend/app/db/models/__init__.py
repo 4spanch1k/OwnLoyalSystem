@@ -8,6 +8,7 @@ from backend.app.db.models.loyalty import (
     LoyaltyProgram,
     PatientWallet,
 )
+from backend.app.db.models.loyalty_manual_adjustment import LoyaltyManualAdjustment
 from backend.app.db.models.loyalty_redemption import LoyaltyRedemption
 from backend.app.db.models.patient import Patient
 from backend.app.db.models.payment import Payment, PaymentLine
@@ -19,6 +20,7 @@ __all__ = [
     "AuditLog",
     "Branch",
     "LoyaltyLedgerEntry",
+    "LoyaltyManualAdjustment",
     "LoyaltyPolicyServiceRule",
     "LoyaltyPolicyVersion",
     "LoyaltyProgram",

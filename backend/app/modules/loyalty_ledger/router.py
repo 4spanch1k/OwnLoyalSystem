@@ -4,8 +4,6 @@ from sqlalchemy.orm import Session
 from backend.app.db.session import get_db
 from backend.app.modules.loyalty_ledger.schemas import (
     LedgerFeedResponse,
-    ManualAdjustmentCreateRequest,
-    ManualAdjustmentCreateResponse,
     RedemptionCreateRequest,
     RedemptionCreateResponse,
     RedemptionQuoteRequest,
@@ -39,8 +37,3 @@ async def quote_redemption(payload: RedemptionQuoteRequest) -> RedemptionQuoteRe
 @router.post("/redemptions", response_model=RedemptionCreateResponse)
 async def create_redemption(_: RedemptionCreateRequest) -> RedemptionCreateResponse:
     raise not_implemented("Redemption write flow is not implemented yet.")
-
-
-@router.post("/manual-adjustments", response_model=ManualAdjustmentCreateResponse)
-async def create_manual_adjustment(_: ManualAdjustmentCreateRequest) -> ManualAdjustmentCreateResponse:
-    raise not_implemented("Manual adjustment write flow is not implemented yet.")

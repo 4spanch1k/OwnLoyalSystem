@@ -13,6 +13,12 @@ class ModelMetadataTestCase(unittest.TestCase):
         Base.metadata.create_all(cls.engine)
         cls.inspector = inspect(cls.engine)
 
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.inspector = None
+        Base.metadata.drop_all(cls.engine)
+        cls.engine.dispose()
+
     def test_expected_tables_are_registered(self) -> None:
         expected_tables = {
             "tenants",
@@ -28,6 +34,7 @@ class ModelMetadataTestCase(unittest.TestCase):
             "loyalty_policy_service_rules",
             "patient_wallets",
             "loyalty_ledger_entries",
+            "loyalty_manual_adjustments",
             "loyalty_redemptions",
             "audit_logs",
         }
@@ -42,16 +49,24 @@ class ModelMetadataTestCase(unittest.TestCase):
         redemption_uniques = {
             tuple(constraint["column_names"]) for constraint in self.inspector.get_unique_constraints("loyalty_redemptions")
         }
+        manual_adjustment_uniques = {
+            tuple(constraint["column_names"])
+            for constraint in self.inspector.get_unique_constraints("loyalty_manual_adjustments")
+        }
 
         self.assertIn(("tenant_id", "patient_id"), wallet_uniques)
         self.assertIn(("tenant_id", "idempotency_key"), ledger_uniques)
         self.assertIn(("tenant_id", "idempotency_key"), redemption_uniques)
+        self.assertIn(("tenant_id", "ledger_entry_id"), manual_adjustment_uniques)
 
     def test_slice_one_indexes_exist(self) -> None:
         payments_indexes = {tuple(index["column_names"]) for index in self.inspector.get_indexes("payments")}
         payment_line_indexes = {tuple(index["column_names"]) for index in self.inspector.get_indexes("payment_lines")}
         wallet_indexes = {tuple(index["column_names"]) for index in self.inspector.get_indexes("patient_wallets")}
         ledger_indexes = {tuple(index["column_names"]) for index in self.inspector.get_indexes("loyalty_ledger_entries")}
+        manual_adjustment_indexes = {
+            tuple(index["column_names"]) for index in self.inspector.get_indexes("loyalty_manual_adjustments")
+        }
         redemption_indexes = {tuple(index["column_names"]) for index in self.inspector.get_indexes("loyalty_redemptions")}
         audit_indexes = {tuple(index["column_names"]) for index in self.inspector.get_indexes("audit_logs")}
 
@@ -60,6 +75,7 @@ class ModelMetadataTestCase(unittest.TestCase):
         self.assertIn(("payment_id",), payment_line_indexes)
         self.assertIn(("tenant_id", "patient_id"), wallet_indexes)
         self.assertIn(("tenant_id", "patient_id", "created_at"), ledger_indexes)
+        self.assertIn(("tenant_id", "patient_id", "created_at"), manual_adjustment_indexes)
         self.assertIn(("payment_id",), ledger_indexes)
         self.assertIn(("tenant_id", "patient_id", "created_at"), redemption_indexes)
         self.assertIn(("payment_id",), redemption_indexes)

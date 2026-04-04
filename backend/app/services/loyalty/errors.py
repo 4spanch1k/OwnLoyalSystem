@@ -24,3 +24,15 @@ class RedemptionConflictError(LoyaltyDomainError):
 
 class RollbackConflictError(LoyaltyDomainError):
     """Raised when a refund-driven rollback cannot be safely applied."""
+
+
+class ManualAdjustmentPermissionError(LoyaltyDomainError):
+    """Raised when the acting user cannot perform a manual wallet adjustment."""
+
+
+class ManualAdjustmentValidationError(LoyaltyDomainError):
+    """Raised when a manual adjustment payload violates business validation rules."""
+
+
+class ManualAdjustmentConflictError(LoyaltyDomainError):
+    """Raised when a manual adjustment would break wallet consistency."""

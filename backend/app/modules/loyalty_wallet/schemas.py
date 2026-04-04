@@ -1,7 +1,9 @@
 from datetime import datetime
 from decimal import Decimal
 
-from pydantic import BaseModel
+from typing import Literal
+
+from pydantic import BaseModel, Field
 
 
 class WalletSummaryResponse(BaseModel):
@@ -21,3 +23,25 @@ class BonusRulesResponse(BaseModel):
     expiry_days: int
     exclusions_summary: list[str]
     faq_items: list[str]
+
+
+class ManualAdjustmentRequest(BaseModel):
+    amount: Decimal = Field(ge=Decimal("0.01"))
+    direction: Literal["credit", "debit"]
+    reason_code: str = Field(min_length=1, max_length=64)
+    comment: str = Field(min_length=1, max_length=500)
+
+
+class ManualAdjustmentResponse(BaseModel):
+    adjustment_id: str
+    patient_id: str
+    wallet_id: str
+    direction: str
+    amount: Decimal
+    balance_before: Decimal
+    wallet_balance_after: Decimal
+    reason_code: str
+    comment: str
+    ledger_entry_id: str
+    audit_log_id: str
+    applied_at: datetime
