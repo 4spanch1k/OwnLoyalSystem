@@ -34,7 +34,10 @@ def get_settings() -> Settings:
         api_v1_prefix=os.getenv("AZAMAT_API_V1_PREFIX", "/api/v1"),
         default_currency_code=os.getenv("AZAMAT_DEFAULT_CURRENCY_CODE", "KZT"),
         database_url=os.getenv(
-            "AZAMAT_DATABASE_URL",
-            "postgresql+psycopg://postgres:postgres@localhost:5432/azamatai",
+            "DATABASE_URL",
+            os.getenv(
+                "AZAMAT_DATABASE_URL",
+                "postgresql+psycopg://postgres:postgres@localhost:5432/azamatai",
+            ),
         ),
     )

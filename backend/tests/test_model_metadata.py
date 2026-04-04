@@ -1,37 +1,25 @@
 import unittest
 
-from backend.app.modules.audit import models as audit_models
-from backend.app.modules.loyalty_ledger import models as loyalty_ledger_models
-from backend.app.modules.loyalty_programs import models as loyalty_program_models
-from backend.app.modules.loyalty_wallet import models as loyalty_wallet_models
-from backend.app.modules.patients import models as patient_models
-from backend.app.modules.payments import models as payment_models
-from backend.app.modules.rbac import models as rbac_models
-from backend.app.modules.tenancy import models as tenancy_models
-from backend.app.modules.visits import models as visit_models
-from backend.app.shared.db.base import Base
+from sqlalchemy import create_engine, inspect
+
+from backend.app.db.base import Base
+import backend.app.db.models  # noqa: F401
 
 
 class ModelMetadataTestCase(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.engine = create_engine("sqlite+pysqlite:///:memory:")
+        Base.metadata.create_all(cls.engine)
+        cls.inspector = inspect(cls.engine)
+
     def test_expected_tables_are_registered(self) -> None:
-        _ = (
-            audit_models,
-            loyalty_ledger_models,
-            loyalty_program_models,
-            loyalty_wallet_models,
-            patient_models,
-            payment_models,
-            rbac_models,
-            tenancy_models,
-            visit_models,
-        )
         expected_tables = {
             "tenants",
             "branches",
             "users",
             "user_memberships",
             "patients",
-            "patient_consents",
             "visits",
             "payments",
             "payment_lines",
@@ -40,12 +28,34 @@ class ModelMetadataTestCase(unittest.TestCase):
             "loyalty_policy_service_rules",
             "patient_wallets",
             "loyalty_ledger_entries",
-            "loyalty_redemptions",
-            "loyalty_manual_adjustments",
             "audit_logs",
         }
 
-        self.assertTrue(expected_tables.issubset(set(Base.metadata.tables.keys())))
+        self.assertEqual(expected_tables, set(Base.metadata.tables.keys()))
+
+    def test_wallet_and_ledger_uniques_are_registered(self) -> None:
+        wallet_uniques = {tuple(constraint["column_names"]) for constraint in self.inspector.get_unique_constraints("patient_wallets")}
+        ledger_uniques = {
+            tuple(constraint["column_names"]) for constraint in self.inspector.get_unique_constraints("loyalty_ledger_entries")
+        }
+
+        self.assertIn(("tenant_id", "patient_id"), wallet_uniques)
+        self.assertIn(("tenant_id", "idempotency_key"), ledger_uniques)
+
+    def test_slice_one_indexes_exist(self) -> None:
+        payments_indexes = {tuple(index["column_names"]) for index in self.inspector.get_indexes("payments")}
+        payment_line_indexes = {tuple(index["column_names"]) for index in self.inspector.get_indexes("payment_lines")}
+        wallet_indexes = {tuple(index["column_names"]) for index in self.inspector.get_indexes("patient_wallets")}
+        ledger_indexes = {tuple(index["column_names"]) for index in self.inspector.get_indexes("loyalty_ledger_entries")}
+        audit_indexes = {tuple(index["column_names"]) for index in self.inspector.get_indexes("audit_logs")}
+
+        self.assertIn(("tenant_id", "patient_id"), payments_indexes)
+        self.assertIn(("tenant_id", "status"), payments_indexes)
+        self.assertIn(("payment_id",), payment_line_indexes)
+        self.assertIn(("tenant_id", "patient_id"), wallet_indexes)
+        self.assertIn(("tenant_id", "patient_id", "created_at"), ledger_indexes)
+        self.assertIn(("payment_id",), ledger_indexes)
+        self.assertIn(("tenant_id", "entity_type", "entity_id"), audit_indexes)
 
 
 if __name__ == "__main__":
