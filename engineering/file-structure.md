@@ -46,6 +46,7 @@ engineering/
   loyalty-ledger-and-policy.md
   loyalty-manual-adjustment-slice-4-spec.md
   frontend-loyalty-integration-slice.md
+  frontend-loyalty-demo-runbook.md
   rbac-events-and-workflows.md
   metrics-rollout-and-operating-model.md
   coding-standards.md
