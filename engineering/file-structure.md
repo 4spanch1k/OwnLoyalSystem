@@ -49,6 +49,7 @@ engineering/
   frontend-loyalty-demo-runbook.md
   loyalty-pilot-demo-data-pack.md
   loyalty-demo-seed-script.md
+  pilot-validation-report-e88a718.md
   pilot-validation-report-125252a-draft.md
   rbac-events-and-workflows.md
   metrics-rollout-and-operating-model.md

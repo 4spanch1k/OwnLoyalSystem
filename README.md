@@ -48,6 +48,16 @@
   Docker is now optional and should be treated as a fallback path for CI, deployment,
   or isolated local infrastructure when native PostgreSQL is not available.
 
+  ## Validation Status
+
+  Current canonical status:
+
+  - `pilot-ready for controlled demo; locally validated on native Postgres; remote GitHub Actions unavailable due to billing lock`
+
+  Canonical local validation report:
+
+  - `engineering/pilot-validation-report-e88a718.md`
+
   ## Documentation
 
   Key engineering documents live in `engineering/`.
@@ -64,5 +74,5 @@
   - `engineering/frontend-loyalty-demo-runbook.md`
   - `engineering/loyalty-pilot-demo-data-pack.md`
   - `engineering/loyalty-demo-seed-script.md`
-  - `engineering/pilot-validation-report-125252a-draft.md`
+  - `engineering/pilot-validation-report-e88a718.md`
   
