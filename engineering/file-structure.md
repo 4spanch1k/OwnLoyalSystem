@@ -44,6 +44,7 @@ engineering/
   loyalty-domain-model-and-api.md
   modules-and-boundaries.md
   loyalty-ledger-and-policy.md
+  loyalty-manual-adjustment-slice-4-spec.md
   rbac-events-and-workflows.md
   metrics-rollout-and-operating-model.md
   coding-standards.md

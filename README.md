@@ -20,4 +20,5 @@
   - `engineering/loyalty-domain-model-and-api.md`
   - `engineering/architecture.md`
   - `engineering/loyalty-ledger-and-policy.md`
+  - `engineering/loyalty-manual-adjustment-slice-4-spec.md`
   
