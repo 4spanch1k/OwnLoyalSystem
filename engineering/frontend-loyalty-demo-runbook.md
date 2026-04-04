@@ -42,6 +42,12 @@ Important:
 - the project does not ship a live seeded demo database
 - if `tenant_id`, `patient_id`, or `actor_user_id` do not exist in the running backend database, the UI will show a safe empty or error state
 
+Fastest setup path:
+
+- apply migrations
+- run `python3 backend/scripts/seed_loyalty_demo.py`
+- then start backend and frontend
+
 Before the demo, make sure the backend database contains:
 
 - one tenant
@@ -49,6 +55,14 @@ Before the demo, make sure the backend database contains:
 - one wallet for that patient, or at least wallet-readable patient data
 - one or more ledger entries if you want non-empty history
 - one actor user with membership role `clinic_manager` or `owner` if you want to demo manual adjustment
+
+The canonical dataset is documented in:
+
+- `loyalty-pilot-demo-data-pack.md`
+
+The seed command is documented in:
+
+- `loyalty-demo-seed-script.md`
 
 ## Local Startup
 

@@ -48,6 +48,7 @@ engineering/
   frontend-loyalty-integration-slice.md
   frontend-loyalty-demo-runbook.md
   loyalty-pilot-demo-data-pack.md
+  loyalty-demo-seed-script.md
   rbac-events-and-workflows.md
   metrics-rollout-and-operating-model.md
   coding-standards.md

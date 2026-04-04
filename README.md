@@ -24,4 +24,5 @@
   - `engineering/frontend-loyalty-integration-slice.md`
   - `engineering/frontend-loyalty-demo-runbook.md`
   - `engineering/loyalty-pilot-demo-data-pack.md`
+  - `engineering/loyalty-demo-seed-script.md`
   
