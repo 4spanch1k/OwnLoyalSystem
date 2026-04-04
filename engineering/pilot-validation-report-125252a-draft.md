@@ -9,7 +9,7 @@
 **Current status:** `pilot-ready with external blockers`
 
 **One-line result:**  
-`Environment validation now passes locally on a clean Postgres runtime: migrations succeed, the canonical seed succeeds, backend and frontend walkthrough smoke checks succeed, and the remaining blocker is GitHub Actions billing lock.`
+`Environment validation now passes locally on the native Homebrew PostgreSQL runtime: migrations succeed, the canonical seed succeeds, backend and frontend walkthrough smoke checks succeed, and the remaining blocker is GitHub Actions billing lock.`
 
 ## 2. Scope of validation
 
@@ -36,8 +36,8 @@ What was not in scope:
 **OS / machine:** `Local macOS workspace`  
 **Python:** `.venv Python 3.14 with backend requirements installed locally`  
 **Node / npm:** `local Vite workspace toolchain`  
-**Database:** `temporary local Postgres 16 container on 127.0.0.1:54329`  
-**Backend env:** `DATABASE_URL=postgresql+psycopg://postgres:postgres@127.0.0.1:54329/azamatai`  
+**Database:** `native local PostgreSQL 16 via Homebrew`  
+**Backend env:** `DATABASE_URL=postgresql+psycopg://aspanch1k@/azamatai?host=/tmp`  
 **Frontend env:** `VITE_LOYALTY_TENANT_ID=tenant-manual-adjustment`, `VITE_LOYALTY_PATIENT_ID=patient-manual-adjustment`, `VITE_LOYALTY_ACTOR_USER_ID=user-clinic-manager`, `VITE_LOYALTY_OPERATOR_ROLE=clinic_manager`, `VITE_LOYALTY_PROXY_TARGET=http://127.0.0.1:8000`
 
 **Canonical dataset source:**
@@ -50,22 +50,22 @@ What was not in scope:
 ### 4.1 Database migration
 
 ```bash
-DATABASE_URL=postgresql+psycopg://postgres:postgres@127.0.0.1:54329/azamatai \
+DATABASE_URL=postgresql+psycopg://aspanch1k@/azamatai?host=/tmp \
 .venv/bin/python -m alembic -c backend/alembic.ini upgrade head
 ```
 
 **Result:** `PASS`  
-**Notes:** `All migrations from 0001 through 0004 applied successfully on a clean Postgres database after fixing two overlong FK names in the migration/model layer.`
+**Notes:** `All migrations from 0001 through 0004 applied successfully on native local PostgreSQL after fixing two overlong FK names in the migration/model layer.`
 
 ### 4.2 Demo seed
 
 ```bash
-DATABASE_URL=postgresql+psycopg://postgres:postgres@127.0.0.1:54329/azamatai \
+DATABASE_URL=postgresql+psycopg://aspanch1k@/azamatai?host=/tmp \
 .venv/bin/python backend/scripts/seed_loyalty_demo.py
 ```
 
 **Result:** `PASS`  
-**Notes:** `The canonical dataset now seeds successfully on clean Postgres after making seed flush order explicit and splitting the program-policy activation step to avoid an insert cycle.`
+**Notes:** `The canonical dataset now seeds successfully on native local PostgreSQL after making seed flush order explicit and splitting the program-policy activation step to avoid an insert cycle.`
 
 ### 4.3 Backend tests
 
@@ -89,7 +89,7 @@ npm run build
 
 **Runbook:** `engineering/frontend-loyalty-demo-runbook.md`  
 **Result:** `PASS`  
-**Notes:** `Validated via a live local stack: FastAPI served on 127.0.0.1:8000 against seeded Postgres, Vite served on 127.0.0.1:5173 with canonical VITE_* env, wallet and ledger were readable through both direct backend calls and the frontend proxy, and a manual adjustment updated wallet + ledger consistently.`
+**Notes:** `Validated via a live local stack: FastAPI served on 127.0.0.1:8000 against seeded native PostgreSQL, Vite served on 127.0.0.1:5173 with canonical VITE_* env, wallet and ledger were readable through both direct backend calls and the frontend proxy, and a manual adjustment updated wallet + ledger consistently.`
 
 ### 4.6 GitHub Actions
 
@@ -183,14 +183,14 @@ Patient sees real balance, ledger rows, and reason labels from backend data.
 
 ### Deviations from expected flow
 
-- `Local environment validation used a temporary Postgres Docker container rather than an already provisioned long-lived database. This is acceptable for checklist validation and preserved clean-db semantics.`
+- `Docker is no longer required for the local validation path. Native PostgreSQL via Homebrew is now the standard local runtime.`
 
 ## 8. Final status
 
 **Overall result:** `PILOT READY WITH EXTERNAL BLOCKERS`
 
 **Reason:**  
-`The environment checklist now passes locally through migrations, seed, backend walkthrough, frontend startup, and live manual-adjustment smoke checks. The only remaining blocker for full sign-off is remote CI, which is still prevented from starting by GitHub billing lock.`
+`The environment checklist now passes locally through migrations, seed, backend walkthrough, frontend startup, and live manual-adjustment smoke checks on native PostgreSQL. The only remaining blocker for full sign-off is remote CI, which is still prevented from starting by GitHub billing lock.`
 
 ## 9. Required follow-up actions
 
@@ -221,7 +221,7 @@ Validated:
 - GitHub Actions: BLOCKED
 
 Confirmed:
-- wallet/ledger are readable on live seeded Postgres
+- wallet/ledger are readable on live seeded native Postgres
 - manual adjustment succeeds for clinic_manager
 - post-submit wallet and ledger state re-read correctly
 - frontend proxy reaches the live backend

@@ -9,9 +9,17 @@ The target stack is:
 
 - Vue 3, TypeScript, Vite, Pinia, Vue Router
 - Python 3.12, FastAPI, SQLAlchemy, Alembic, Pydantic Settings, PyJWT, psycopg
-- PostgreSQL 16, Redis 7, Docker Compose, Uvicorn
+- PostgreSQL 16, Redis 7, Docker Compose (optional), Uvicorn
 
 For package-level stack details, see `technology-stack.md`.
+
+The standard local runtime path is:
+
+- native `postgresql@16` via Homebrew
+- backend `.venv`
+- `DATABASE_URL=postgresql+psycopg://aspanch1k@/azamatai?host=/tmp`
+
+Docker remains optional for CI, deployment, or isolated infrastructure, but it is not required for local development or loyalty validation.
 
 ## Current Repository Reality
 

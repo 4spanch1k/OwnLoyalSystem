@@ -46,14 +46,15 @@ Use the backend for:
 
 - PostgreSQL 16
 - Redis 7
-- Docker Compose
+- Docker Compose (optional)
 - Uvicorn
 
 Infrastructure roles:
 
 - PostgreSQL stores operational truth, ledger records, audit, and analytics facts
 - Redis supports queues, cache, and short-lived workflow state
-- Docker Compose is the standard local orchestration tool
+- Native local PostgreSQL via Homebrew is the standard local runtime path
+- Docker Compose is an optional infrastructure path for CI, deployment, or isolated local services
 - Uvicorn is the backend ASGI server for local and service execution
 
 ## Quality and Delivery

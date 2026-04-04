@@ -5,9 +5,48 @@
 
   ## Running the code
 
-  Run `npm i` to install the dependencies.
+  Native local path is the default development/runtime setup for this repository.
 
-  Run `npm run dev` to start the development server.
+  ### No-Docker Local Bootstrap
+
+  1. Install backend requirements into `.venv`:
+
+  ```bash
+  python3 -m venv .venv
+  .venv/bin/python -m pip install -r backend/requirements.txt
+  ```
+
+  2. Start native PostgreSQL 16 through Homebrew:
+
+  ```bash
+  brew services start postgresql@16
+  /opt/homebrew/opt/postgresql@16/bin/psql -d postgres -c "CREATE DATABASE azamatai;"
+  ```
+
+  3. Point backend tooling to the native local database:
+
+  ```bash
+  export DATABASE_URL='postgresql+psycopg://aspanch1k@/azamatai?host=/tmp'
+  ```
+
+  4. Apply migrations and seed the canonical demo dataset:
+
+  ```bash
+  .venv/bin/python -m alembic -c backend/alembic.ini upgrade head
+  .venv/bin/python backend/scripts/seed_loyalty_demo.py
+  ```
+
+  5. Start backend and frontend:
+
+  ```bash
+  .venv/bin/python -m uvicorn backend.app.main:app --reload --host 127.0.0.1 --port 8000
+  npm run dev
+  ```
+
+  Run `npm i` to install the frontend dependencies if needed.
+
+  Docker is now optional and should be treated as a fallback path for CI, deployment,
+  or isolated local infrastructure when native PostgreSQL is not available.
 
   ## Documentation
 

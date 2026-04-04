@@ -44,6 +44,9 @@ Important:
 
 Fastest setup path:
 
+- start native `postgresql@16` through Homebrew
+- activate `.venv`
+- set `DATABASE_URL=postgresql+psycopg://aspanch1k@/azamatai?host=/tmp`
 - apply migrations
 - run `python3 backend/scripts/seed_loyalty_demo.py`
 - then start backend and frontend
@@ -66,12 +69,31 @@ The seed command is documented in:
 
 ## Local Startup
 
-### 1. Start backend
+### 1. Start native PostgreSQL
+
+```bash
+brew services start postgresql@16
+/opt/homebrew/opt/postgresql@16/bin/psql -d postgres -c "CREATE DATABASE azamatai;"
+```
+
+Use this runtime path by default. Docker is optional and not required for the local demo flow.
+
+### 2. Activate backend env and prepare data
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -r backend/requirements.txt
+export DATABASE_URL='postgresql+psycopg://aspanch1k@/azamatai?host=/tmp'
+.venv/bin/python -m alembic -c backend/alembic.ini upgrade head
+.venv/bin/python backend/scripts/seed_loyalty_demo.py
+```
+
+### 3. Start backend
 
 From the project root:
 
 ```bash
-python3 -m uvicorn backend.app.main:app --reload --host 127.0.0.1 --port 8000
+.venv/bin/python -m uvicorn backend.app.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
 Health check:
@@ -86,7 +108,7 @@ Expected response:
 {"status":"ok"}
 ```
 
-### 2. Start frontend
+### 4. Start frontend
 
 Use the existing Vite app:
 
@@ -101,6 +123,8 @@ If backend runs on another target, set:
 ```bash
 VITE_LOYALTY_PROXY_TARGET=http://127.0.0.1:8001
 ```
+
+For the native local path, keep the default proxy target on `http://127.0.0.1:8000`.
 
 ## Frontend Env For Demo
 
