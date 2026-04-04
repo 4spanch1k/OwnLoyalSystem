@@ -28,6 +28,7 @@ import {
   Wallet,
   CirclePercent,
   Timer,
+  CircleHelp,
 } from "lucide-react";
 
 /* ── Types ── */
@@ -88,11 +89,12 @@ const SERVICES: Service[] = [
   { id: 4, name: "Консультация", visits: 1, lastDate: "20 декабря 2025", icon: "💬" },
 ];
 
-type NavSection = "main" | "bonuses" | "account" | "language" | "theme" | "appointments" | "book";
+type NavSection = "main" | "bonuses" | "faq" | "account" | "language" | "theme" | "appointments" | "book";
 
 const NAV_ITEMS: { id: NavSection; label: string; icon: React.ElementType }[] = [
   { id: "main", label: "Мой кабинет", icon: LayoutDashboard },
   { id: "bonuses", label: "Как работают бонусы", icon: Gift },
+  { id: "faq", label: "FAQ", icon: CircleHelp },
   { id: "account", label: "Данные аккаунта", icon: User },
   { id: "language", label: "Язык интерфейса", icon: Globe },
   { id: "theme", label: "Тема", icon: Moon },
@@ -153,6 +155,69 @@ const BONUS_FAQ = [
   {
     question: "Если услуг несколько, бонусы считаются по всей сумме?",
     answer: "Да, если услуги участвуют в программе. Если часть услуги не участвует, это будет видно при оплате.",
+  },
+];
+
+const FAQ_ITEMS = [
+  {
+    category: "Бонусная программа",
+    question: "Когда бонусы появляются на счёте?",
+    answer:
+      "После подтверждения оплаты за услуги, которые участвуют в программе. Обычно бонусы отображаются вскоре после визита.",
+  },
+  {
+    category: "Бонусная программа",
+    question: "На что можно потратить бонусы?",
+    answer:
+      "Бонусами можно оплатить часть следующего подходящего визита. Лимит списания зависит от правил программы и заранее виден при оплате.",
+  },
+  {
+    category: "Бонусная программа",
+    question: "Почему за некоторые услуги бонусы не начисляются?",
+    answer:
+      "На услуги со спецусловиями или отдельной экономикой клиники программа может не распространяться. Это всегда уточняется до оплаты.",
+  },
+  {
+    category: "Записи и визиты",
+    question: "Где посмотреть ближайшую запись?",
+    answer:
+      "Все актуальные записи отображаются в разделе «Мои записи» внутри кабинета. Там видно дату, время и врача.",
+  },
+  {
+    category: "Записи и визиты",
+    question: "Можно ли записаться повторно через кабинет?",
+    answer:
+      "Да. Для этого есть отдельный раздел «Записаться», где можно выбрать специализацию, врача, дату и свободное время.",
+  },
+  {
+    category: "Платежи",
+    question: "Где хранится история моих оплат?",
+    answer:
+      "История платежей и связанных услуг находится в кабинете пациента. Там можно посмотреть сумму, дату и статус оплаты.",
+  },
+  {
+    category: "Аккаунт",
+    question: "Что делать, если изменился телефон или email?",
+    answer:
+      "Откройте раздел «Данные аккаунта». Если самостоятельного редактирования недостаточно, администратор клиники поможет обновить профиль.",
+  },
+  {
+    category: "Клиника",
+    question: "Можно ли уточнить план лечения или задать вопрос врачу после визита?",
+    answer:
+      "Да, для этого лучше связаться с клиникой через контакты или обратиться к администратору. Он подскажет, как быстрее передать вопрос врачу.",
+  },
+  {
+    category: "Клиника",
+    question: "Как понять, какие услуги доступны в клинике?",
+    answer:
+      "На сайте есть разделы «Услуги», «Врачи» и «Цены». Там можно посмотреть направления лечения, специалистов и ориентиры по стоимости.",
+  },
+  {
+    category: "Поддержка",
+    question: "Куда обращаться, если бонусы или запись отображаются неправильно?",
+    answer:
+      "Лучше всего сразу обратиться в клинику. Администратор проверит профиль, оплату и историю операций и поможет быстро исправить ситуацию.",
   },
 ];
 
@@ -792,6 +857,56 @@ function BonusesGuideTab() {
   );
 }
 
+function FaqTab() {
+  return (
+    <div className="flex flex-col gap-5">
+      <div
+        className="rounded-2xl p-6 relative overflow-hidden"
+        style={{ background: "linear-gradient(135deg, #1A2B3C 0%, #1B4A6B 100%)" }}
+      >
+        <div className="absolute -right-8 -top-8 w-32 h-32 rounded-full opacity-10" style={{ backgroundColor: "#FFFFFF" }} />
+        <div className="max-w-2xl relative z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-4" style={{ backgroundColor: "rgba(255,255,255,0.12)" }}>
+            <CircleHelp size={14} color="#FFFFFF" />
+            <span style={{ fontSize: "12px", color: "#FFFFFF", fontWeight: 600 }}>FAQ</span>
+          </div>
+          <h1 style={{ fontWeight: 700, fontSize: "24px", lineHeight: 1.2, color: "#FFFFFF" }}>
+            Частые вопросы о кабинете, бонусах и работе клиники
+          </h1>
+          <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.72)", marginTop: "12px", lineHeight: 1.6 }}>
+            Здесь собраны короткие ответы на самые частые вопросы: как работают бонусы, где смотреть записи,
+            что делать с оплатой и куда обращаться, если нужна помощь.
+          </p>
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-4">
+        {FAQ_ITEMS.map((item) => (
+          <div
+            key={item.question}
+            className="rounded-2xl p-5"
+            style={{ backgroundColor: "#FFFFFF", border: "1px solid #E8EEF4" }}
+          >
+            <div
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full mb-3"
+              style={{ backgroundColor: "#EBF4FB", color: "#1B6CA8" }}
+            >
+              <CircleHelp size={12} />
+              <span style={{ fontSize: "11px", fontWeight: 600 }}>{item.category}</span>
+            </div>
+            <div style={{ fontSize: "15px", fontWeight: 600, color: "#1A2B3C", lineHeight: 1.35 }}>
+              {item.question}
+            </div>
+            <div style={{ fontSize: "13px", color: "#6B8FA8", lineHeight: 1.65, marginTop: "8px" }}>
+              {item.answer}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /* ── Main Dashboard ── */
 interface Props {
   onNavigate: (page: Page) => void;
@@ -878,6 +993,8 @@ export function Dashboard({ onNavigate }: Props) {
         );
       case "bonuses":
         return <BonusesGuideTab />;
+      case "faq":
+        return <FaqTab />;
       case "language":
         return (
           <div className="rounded-2xl p-6" style={{ backgroundColor: "#FFFFFF", border: "1px solid #E8EEF4" }}>
