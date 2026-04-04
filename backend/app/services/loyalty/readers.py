@@ -61,6 +61,7 @@ def get_patient_ledger_feed(db: Session, tenant_id: str, patient_id: str) -> Led
             LedgerEntryResponse(
                 ledger_entry_id=entry.id,
                 entry_type=entry.entry_type,
+                direction=_resolve_ledger_direction(entry),
                 amount=entry.amount,
                 balance_after=entry.balance_after,
                 payment_id=entry.payment_id,
@@ -72,3 +73,16 @@ def get_patient_ledger_feed(db: Session, tenant_id: str, patient_id: str) -> Led
             for entry in entries
         ]
     )
+
+
+def _resolve_ledger_direction(entry: LoyaltyLedgerEntry) -> str | None:
+    if entry.entry_type == "accrual":
+        return "credit"
+    if entry.entry_type in {"redeem", "rollback", "expire"}:
+        return "debit"
+    if entry.entry_type == "manual_adjustment":
+        metadata_json = entry.metadata_json or {}
+        direction = metadata_json.get("direction")
+        if direction in {"credit", "debit"}:
+            return direction
+    return None

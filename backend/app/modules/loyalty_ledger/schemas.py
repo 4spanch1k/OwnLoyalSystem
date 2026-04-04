@@ -7,6 +7,7 @@ from pydantic import BaseModel, Field
 class LedgerEntryResponse(BaseModel):
     ledger_entry_id: str
     entry_type: str
+    direction: str | None
     amount: Decimal
     balance_after: Decimal
     payment_id: str | None

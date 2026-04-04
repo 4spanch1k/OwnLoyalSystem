@@ -1,5 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Page } from "../App";
+import { LoyaltyPatientSelectorCard } from "./doctor-cabinet/LoyaltyPatientSelectorCard";
+import { ManualAdjustmentForm } from "./doctor-cabinet/ManualAdjustmentForm";
+import { OperatorWalletSummaryCard } from "./doctor-cabinet/OperatorWalletSummaryCard";
+import { LoyaltyLedgerCard } from "./loyalty/LoyaltyLedgerCard";
+import { useManualAdjustment } from "../hooks/useManualAdjustment";
+import { usePatientLoyalty } from "../hooks/usePatientLoyalty";
+import { loyaltyPilotConfig } from "../services/loyaltyConfig";
 import {
   LayoutDashboard,
   Users,
@@ -233,6 +240,29 @@ export function DoctorCabinet({ onNavigate }: Props) {
   const [activeSection, setActiveSection] = useState<NavSection>("dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [appointments, setAppointments] = useState(TODAY_APPOINTMENTS);
+  const [selectedPatientId, setSelectedPatientId] = useState<string | null>(
+    loyaltyPilotConfig.operatorPatients[0]?.id ?? null,
+  );
+  const selectedPatient =
+    loyaltyPilotConfig.operatorPatients.find((patient) => patient.id === selectedPatientId) ?? null;
+  const {
+    wallet: loyaltyWallet,
+    ledger: loyaltyLedger,
+    loading: loyaltyLoading,
+    error: loyaltyError,
+    refetch: refetchLoyalty,
+  } = usePatientLoyalty(selectedPatientId, activeSection === "patients" && Boolean(selectedPatientId));
+  const {
+    submitting: adjustmentSubmitting,
+    successMessage: adjustmentSuccessMessage,
+    errorMessage: adjustmentErrorMessage,
+    submitAdjustment,
+    clearFeedback,
+  } = useManualAdjustment(selectedPatientId, refetchLoyalty);
+
+  useEffect(() => {
+    clearFeedback();
+  }, [selectedPatientId, clearFeedback]);
 
   const updateStatus = (id: number, status: AppStatus) => {
     setAppointments((prev) => prev.map((a) => a.id === id ? { ...a, status } : a));
@@ -295,22 +325,47 @@ export function DoctorCabinet({ onNavigate }: Props) {
 
       case "patients":
         return (
-          <div>
-            <h1 style={{ fontWeight: 700, fontSize: "22px", color: "#1A2B3C", marginBottom: "20px" }}>
-              Мои пациенты
-            </h1>
-            <div
-              className="rounded-2xl p-6 text-center"
-              style={{ backgroundColor: "#FFFFFF", border: "1px solid #E8EEF4" }}
-            >
-              <Users size={40} className="mx-auto mb-3" style={{ color: "#D0E6F5" }} />
-              <div style={{ fontWeight: 600, fontSize: "16px", color: "#1A2B3C", marginBottom: "6px" }}>
-                База пациентов
-              </div>
-              <p style={{ fontSize: "13px", color: "#6B8FA8" }}>
-                Здесь будет список всех ваших пациентов с историей визитов
+          <div className="flex flex-col gap-5">
+            <div>
+              <h1 style={{ fontWeight: 700, fontSize: "22px", color: "#1A2B3C" }}>
+                Пациенты и loyalty-операции
+              </h1>
+              <p style={{ fontSize: "13px", color: "#6B8FA8", marginTop: "4px", lineHeight: 1.5 }}>
+                Внутренний пилотный блок: смотрим реальный бонусный баланс пациента, историю операций и делаем ручную корректировку с аудитом.
               </p>
             </div>
+
+            <LoyaltyPatientSelectorCard
+              patients={loyaltyPilotConfig.operatorPatients}
+              selectedPatientId={selectedPatientId}
+              onSelect={setSelectedPatientId}
+            />
+
+            <div className="grid lg:grid-cols-2 gap-5">
+              <OperatorWalletSummaryCard
+                patientLabel={selectedPatient?.label ?? "Пациент не выбран"}
+                wallet={loyaltyWallet}
+                loading={loyaltyLoading}
+                error={loyaltyError}
+              />
+              <ManualAdjustmentForm
+                patientLabel={selectedPatient?.label ?? "Пациент не выбран"}
+                disabled={!selectedPatientId}
+                submitting={adjustmentSubmitting}
+                successMessage={adjustmentSuccessMessage}
+                errorMessage={adjustmentErrorMessage}
+                onSubmit={submitAdjustment}
+              />
+            </div>
+
+            <LoyaltyLedgerCard
+              title="История loyalty-операций пациента"
+              entries={loyaltyLedger}
+              loading={loyaltyLoading}
+              error={loyaltyError}
+              emptyTitle="У пациента ещё нет loyalty-операций"
+              emptyDescription="После начисления, списания, возврата или ручной корректировки история появится в этом блоке."
+            />
           </div>
         );
 

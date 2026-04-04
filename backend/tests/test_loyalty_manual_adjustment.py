@@ -200,6 +200,7 @@ class LoyaltyManualAdjustmentFlowTestCase(unittest.TestCase):
         last_entry = ledger_response.json()["items"][0]
 
         self.assertEqual(last_entry["entry_type"], "manual_adjustment")
+        self.assertEqual(last_entry["direction"], "debit")
         self.assertEqual(Decimal(str(wallet_payload["available_balance"])), Decimal(str(last_entry["balance_after"])))
         self.assertEqual(Decimal(str(wallet_payload["available_balance"])), Decimal("16.00"))
 

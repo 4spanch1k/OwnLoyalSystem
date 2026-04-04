@@ -1,5 +1,9 @@
 import { useState } from "react";
 import { Page } from "../App";
+import { PatientWalletCard } from "./dashboard/PatientWalletCard";
+import { LoyaltyLedgerCard } from "./loyalty/LoyaltyLedgerCard";
+import { usePatientLoyalty } from "../hooks/usePatientLoyalty";
+import { loyaltyPilotConfig } from "../services/loyaltyConfig";
 import {
   LayoutDashboard,
   User,
@@ -796,6 +800,10 @@ interface Props {
 export function Dashboard({ onNavigate }: Props) {
   const [activeSection, setActiveSection] = useState<NavSection>("main");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { wallet, ledger, loading: loyaltyLoading, error: loyaltyError } = usePatientLoyalty(
+    loyaltyPilotConfig.dashboardPatientId,
+    activeSection === "main",
+  );
 
   const handleNav = (section: NavSection) => {
     setActiveSection(section);
@@ -827,7 +835,15 @@ export function Dashboard({ onNavigate }: Props) {
                 </div>
               </div>
             </div>
-            <BonusCard />
+            <PatientWalletCard wallet={wallet} loading={loyaltyLoading} error={loyaltyError} />
+            <LoyaltyLedgerCard
+              title="История бонусных операций"
+              entries={ledger}
+              loading={loyaltyLoading}
+              error={loyaltyError}
+              emptyTitle="История бонусов пока пустая"
+              emptyDescription="После первого начисления, списания или возврата операции появятся в этой карточке."
+            />
             <div className="grid md:grid-cols-2 gap-5">
               <UpcomingAppointments onBook={() => handleNav("book")} />
               <PaymentsCard />
