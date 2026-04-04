@@ -1,5 +1,12 @@
 export type LoyaltyDirection = "credit" | "debit";
 
+export type LoyaltyOperatorRole =
+  | "owner"
+  | "clinic_manager"
+  | "doctor"
+  | "front_desk"
+  | "viewer";
+
 export interface LoyaltyWallet {
   patientId: string;
   availableBalance: number;

@@ -6,6 +6,8 @@ import { LoyaltyDirection, ManualAdjustmentPayload } from "../../services/loyalt
 
 interface Props {
   patientLabel: string;
+  canAdjust: boolean;
+  currentRoleLabel: string;
   disabled: boolean;
   submitting: boolean;
   successMessage: string | null;
@@ -15,6 +17,8 @@ interface Props {
 
 export function ManualAdjustmentForm({
   patientLabel,
+  canAdjust,
+  currentRoleLabel,
   disabled,
   submitting,
   successMessage,
@@ -64,6 +68,22 @@ export function ManualAdjustmentForm({
         </div>
       </div>
 
+      {!canAdjust ? (
+        <div
+          className="rounded-xl p-4 flex items-start gap-3"
+          style={{ backgroundColor: "#FFF8EC", border: "1px solid #FCDEA3" }}
+        >
+          <AlertCircle size={15} style={{ color: "#E8970A", marginTop: "1px", flexShrink: 0 }} />
+          <div>
+            <div style={{ fontSize: "13px", fontWeight: 600, color: "#8A5A00" }}>
+              Ручная корректировка недоступна
+            </div>
+            <div style={{ fontSize: "12px", color: "#A07030", marginTop: "4px", lineHeight: 1.5 }}>
+              Текущая роль: {currentRoleLabel}. Из этого кабинета можно смотреть баланс и историю, а менять бонусы могут только менеджер клиники или владелец.
+            </div>
+          </div>
+        </div>
+      ) : (
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div>
           <div style={{ fontSize: "12px", color: "#6B8FA8", marginBottom: "8px", fontWeight: 500 }}>
@@ -182,6 +202,7 @@ export function ManualAdjustmentForm({
           {submitting ? "Сохраняем..." : "Применить корректировку"}
         </button>
       </form>
+      )}
     </div>
   );
 }

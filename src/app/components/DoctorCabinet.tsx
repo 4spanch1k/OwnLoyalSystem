@@ -350,6 +350,8 @@ export function DoctorCabinet({ onNavigate }: Props) {
               />
               <ManualAdjustmentForm
                 patientLabel={selectedPatient?.label ?? "Пациент не выбран"}
+                canAdjust={loyaltyPilotConfig.canManageManualAdjustments}
+                currentRoleLabel={loyaltyPilotConfig.operatorRoleLabel}
                 disabled={!selectedPatientId}
                 submitting={adjustmentSubmitting}
                 successMessage={adjustmentSuccessMessage}

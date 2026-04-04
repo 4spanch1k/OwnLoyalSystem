@@ -1,4 +1,4 @@
-import { LoyaltyPatientOption } from "./loyaltyTypes";
+import { LoyaltyOperatorRole, LoyaltyPatientOption } from "./loyaltyTypes";
 
 const normalizeEnvValue = (value: string | undefined): string | null => {
   const trimmedValue = value?.trim();
@@ -11,9 +11,11 @@ const dashboardPatientId =
   normalizeEnvValue(import.meta.env.VITE_LOYALTY_PATIENT_ID) ?? "patient-manual-adjustment";
 const actorUserId =
   normalizeEnvValue(import.meta.env.VITE_LOYALTY_ACTOR_USER_ID) ?? "user-clinic-manager";
+const operatorRole = normalizeOperatorRole(import.meta.env.VITE_LOYALTY_OPERATOR_ROLE);
 const extraOperatorPatientId = normalizeEnvValue(import.meta.env.VITE_LOYALTY_OPERATOR_PATIENT_ID);
 const extraOperatorPatientLabel =
   normalizeEnvValue(import.meta.env.VITE_LOYALTY_OPERATOR_PATIENT_LABEL) ?? "Пациент из интеграции";
+const manualAdjustmentAllowedRoles: LoyaltyOperatorRole[] = ["owner", "clinic_manager"];
 
 const operatorPatients: LoyaltyPatientOption[] = [
   { id: dashboardPatientId, label: "Анна Сергеевна Кузнецова" },
@@ -28,6 +30,9 @@ export const loyaltyPilotConfig = {
   tenantId,
   dashboardPatientId,
   actorUserId,
+  operatorRole,
+  operatorRoleLabel: getOperatorRoleLabel(operatorRole),
+  canManageManualAdjustments: manualAdjustmentAllowedRoles.includes(operatorRole),
   operatorPatients,
 };
 
@@ -39,3 +44,31 @@ export const manualAdjustmentReasonOptions = [
   { value: "fraud_reversal", label: "Аннулирование спорной операции" },
   { value: "admin_error_fix", label: "Исправление ошибки администратора" },
 ];
+
+function normalizeOperatorRole(value: string | undefined): LoyaltyOperatorRole {
+  const normalizedValue = value?.trim().toLowerCase();
+
+  if (
+    normalizedValue === "owner" ||
+    normalizedValue === "clinic_manager" ||
+    normalizedValue === "doctor" ||
+    normalizedValue === "front_desk" ||
+    normalizedValue === "viewer"
+  ) {
+    return normalizedValue;
+  }
+
+  return "doctor";
+}
+
+function getOperatorRoleLabel(role: LoyaltyOperatorRole): string {
+  const roleLabels: Record<LoyaltyOperatorRole, string> = {
+    owner: "Владелец",
+    clinic_manager: "Менеджер клиники",
+    doctor: "Врач",
+    front_desk: "Ресепшен",
+    viewer: "Наблюдатель",
+  };
+
+  return roleLabels[role];
+}
