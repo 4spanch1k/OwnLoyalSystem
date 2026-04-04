@@ -41,3 +41,27 @@ jobs:
 
       - name: Run backend contract tests
         run: python -m unittest discover -s backend/tests
+
+  backend-migrations:
+    runs-on: ubuntu-latest
+
+    env:
+      DATABASE_URL: sqlite+pysqlite:///./backend-ci.db
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install backend dependencies
+        run: python -m pip install -r backend/requirements.txt
+
+      - name: Upgrade database schema
+        run: alembic -c backend/alembic.ini upgrade head
+
+      - name: Re-run upgrade for idempotent head state
+        run: alembic -c backend/alembic.ini upgrade head
