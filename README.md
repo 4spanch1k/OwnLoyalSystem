@@ -21,4 +21,5 @@
   - `engineering/architecture.md`
   - `engineering/loyalty-ledger-and-policy.md`
   - `engineering/loyalty-manual-adjustment-slice-4-spec.md`
+  - `engineering/frontend-loyalty-integration-slice.md`
   
