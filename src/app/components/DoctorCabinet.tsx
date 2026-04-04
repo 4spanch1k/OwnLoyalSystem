@@ -7,6 +7,7 @@ import { LoyaltyLedgerCard } from "./loyalty/LoyaltyLedgerCard";
 import { useManualAdjustment } from "../hooks/useManualAdjustment";
 import { usePatientLoyalty } from "../hooks/usePatientLoyalty";
 import { loyaltyPilotConfig } from "../services/loyaltyConfig";
+import { FadeUpSection } from "./motion/FadeUpSection";
 import {
   LayoutDashboard,
   Users,
@@ -281,6 +282,7 @@ export function DoctorCabinet({ onNavigate }: Props) {
         return (
           <div className="flex flex-col gap-5">
             {/* Greeting */}
+            <FadeUpSection index={0}>
             <div>
               <h1 style={{ fontWeight: 700, fontSize: "22px", color: "#1A2B3C" }}>
                 Добрый день, {DOCTOR.name.split(" ")[0]}!
@@ -289,8 +291,10 @@ export function DoctorCabinet({ onNavigate }: Props) {
                 Вторник, 7 апреля 2026 · {DOCTOR.role}
               </p>
             </div>
+            </FadeUpSection>
 
             {/* Stats */}
+            <FadeUpSection index={1}>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {[
                 { label: "Всего сегодня", value: stats.total, color: "#1A2B3C", bg: "#FFFFFF" },
@@ -306,10 +310,12 @@ export function DoctorCabinet({ onNavigate }: Props) {
                   <div style={{ fontSize: "26px", fontWeight: 700, color: s.color }}>{s.value}</div>
                   <div style={{ fontSize: "11px", color: "#6B8FA8", marginTop: "3px" }}>{s.label}</div>
                 </div>
-              ))}
+                ))}
             </div>
+            </FadeUpSection>
 
             {/* Appointments */}
+            <FadeUpSection index={2}>
             <div>
               <div style={{ fontWeight: 600, fontSize: "16px", color: "#1A2B3C", marginBottom: "12px" }}>
                 Расписание на сегодня
@@ -320,12 +326,14 @@ export function DoctorCabinet({ onNavigate }: Props) {
                 ))}
               </div>
             </div>
+            </FadeUpSection>
           </div>
         );
 
       case "patients":
         return (
           <div className="flex flex-col gap-5">
+            <FadeUpSection index={0}>
             <div>
               <h1 style={{ fontWeight: 700, fontSize: "22px", color: "#1A2B3C" }}>
                 Пациенты и loyalty-операции
@@ -334,13 +342,17 @@ export function DoctorCabinet({ onNavigate }: Props) {
                 Внутренний пилотный блок: смотрим реальный бонусный баланс пациента, историю операций и делаем ручную корректировку с аудитом.
               </p>
             </div>
+            </FadeUpSection>
 
+            <FadeUpSection index={1} variant="card">
             <LoyaltyPatientSelectorCard
               patients={loyaltyPilotConfig.operatorPatients}
               selectedPatientId={selectedPatientId}
               onSelect={setSelectedPatientId}
             />
+            </FadeUpSection>
 
+            <FadeUpSection index={2}>
             <div className="grid lg:grid-cols-2 gap-5">
               <OperatorWalletSummaryCard
                 patientLabel={selectedPatient?.label ?? "Пациент не выбран"}
@@ -359,7 +371,9 @@ export function DoctorCabinet({ onNavigate }: Props) {
                 onSubmit={submitAdjustment}
               />
             </div>
+            </FadeUpSection>
 
+            <FadeUpSection index={3} variant="card">
             <LoyaltyLedgerCard
               title="История loyalty-операций пациента"
               entries={loyaltyLedger}
@@ -368,11 +382,13 @@ export function DoctorCabinet({ onNavigate }: Props) {
               emptyTitle="У пациента ещё нет loyalty-операций"
               emptyDescription="После начисления, списания, возврата или ручной корректировки история появится в этом блоке."
             />
+            </FadeUpSection>
           </div>
         );
 
       case "schedule":
         return (
+          <FadeUpSection index={0}>
           <div>
             <h1 style={{ fontWeight: 700, fontSize: "22px", color: "#1A2B3C", marginBottom: "20px" }}>
               Расписание
@@ -390,10 +406,12 @@ export function DoctorCabinet({ onNavigate }: Props) {
               </p>
             </div>
           </div>
+          </FadeUpSection>
         );
 
       case "notes":
         return (
+          <FadeUpSection index={0}>
           <div>
             <h1 style={{ fontWeight: 700, fontSize: "22px", color: "#1A2B3C", marginBottom: "20px" }}>
               Заметки
@@ -419,6 +437,7 @@ export function DoctorCabinet({ onNavigate }: Props) {
               </button>
             </div>
           </div>
+          </FadeUpSection>
         );
     }
   };

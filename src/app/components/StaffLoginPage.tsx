@@ -3,6 +3,7 @@ import { Eye, EyeOff, Shield, ArrowLeft } from "lucide-react";
 import { Page } from "../App";
 import { Header } from "./shared/Header";
 import { Footer } from "./shared/Footer";
+import { FadeUpSection } from "./motion/FadeUpSection";
 
 interface Props {
   onNavigate: (page: Page) => void;
@@ -26,6 +27,7 @@ export function StaffLoginPage({ onNavigate }: Props) {
 
       <section className="max-w-5xl mx-auto px-5 py-12 md:py-16">
         <div className="max-w-4xl mx-auto grid lg:grid-cols-[minmax(0,0.9fr)_minmax(340px,1.1fr)] gap-6 items-start">
+          <FadeUpSection index={0} variant="section">
           <div
             className="rounded-3xl p-6 md:p-7"
             style={{ backgroundColor: "#EBF4FB", border: "1px solid #D0E6F5" }}
@@ -81,7 +83,9 @@ export function StaffLoginPage({ onNavigate }: Props) {
               Вернуться ко входу пациента
             </button>
           </div>
+          </FadeUpSection>
 
+          <FadeUpSection index={1} variant="form">
           <div
             className="rounded-3xl overflow-hidden"
             style={{
@@ -158,6 +162,7 @@ export function StaffLoginPage({ onNavigate }: Props) {
               </button>
             </form>
           </div>
+          </FadeUpSection>
         </div>
       </section>
 

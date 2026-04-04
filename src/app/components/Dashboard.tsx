@@ -4,6 +4,7 @@ import { PatientWalletCard } from "./dashboard/PatientWalletCard";
 import { LoyaltyLedgerCard } from "./loyalty/LoyaltyLedgerCard";
 import { usePatientLoyalty } from "../hooks/usePatientLoyalty";
 import { loyaltyPilotConfig } from "../services/loyaltyConfig";
+import { FadeUpSection } from "./motion/FadeUpSection";
 import {
   LayoutDashboard,
   User,
@@ -710,6 +711,7 @@ function AccountTab() {
 function BonusesGuideTab() {
   return (
     <div className="flex flex-col gap-5">
+      <FadeUpSection index={0} variant="hero">
       <div
         className="rounded-2xl p-6 relative overflow-hidden"
         style={{ background: "linear-gradient(135deg, #1B6CA8 0%, #0F4C7A 100%)" }}
@@ -731,7 +733,9 @@ function BonusesGuideTab() {
           </p>
         </div>
       </div>
+      </FadeUpSection>
 
+      <FadeUpSection index={1}>
       <div className="grid md:grid-cols-3 gap-4">
         {BONUS_STEPS.map((step) => {
           const Icon = step.icon;
@@ -756,8 +760,10 @@ function BonusesGuideTab() {
           );
         })}
       </div>
+      </FadeUpSection>
 
       <div className="grid md:grid-cols-2 gap-5">
+        <FadeUpSection index={2}>
         <div className="rounded-2xl p-5" style={{ backgroundColor: "#FFFFFF", border: "1px solid #E8EEF4" }}>
           <div className="flex items-center gap-2 mb-4">
             <Gift size={16} style={{ color: "#1B6CA8" }} />
@@ -790,7 +796,9 @@ function BonusesGuideTab() {
             })}
           </div>
         </div>
+        </FadeUpSection>
 
+        <FadeUpSection index={3}>
         <div>
           <div className="rounded-2xl p-5" style={{ backgroundColor: "#FFFFFF", border: "1px solid #E8EEF4" }}>
             <div className="flex items-center gap-2 mb-4">
@@ -816,6 +824,7 @@ function BonusesGuideTab() {
             </div>
           </div>
         </div>
+        </FadeUpSection>
       </div>
     </div>
   );
@@ -824,6 +833,7 @@ function BonusesGuideTab() {
 function FaqTab() {
   return (
     <div className="flex flex-col gap-5">
+      <FadeUpSection index={0} variant="hero">
       <div
         className="rounded-2xl p-6 relative overflow-hidden"
         style={{ background: "linear-gradient(135deg, #1A2B3C 0%, #1B4A6B 100%)" }}
@@ -843,7 +853,9 @@ function FaqTab() {
           </p>
         </div>
       </div>
+      </FadeUpSection>
 
+      <FadeUpSection index={1}>
       <div className="grid md:grid-cols-2 gap-4">
         {FAQ_ITEMS.map((item) => (
           <div
@@ -867,6 +879,7 @@ function FaqTab() {
           </div>
         ))}
       </div>
+      </FadeUpSection>
     </div>
   );
 }
@@ -894,6 +907,7 @@ export function Dashboard({ onNavigate }: Props) {
       case "main":
         return (
           <div className="flex flex-col gap-5">
+            <FadeUpSection index={0}>
             <div>
               <h1 style={{ fontWeight: 700, fontSize: "22px", color: "#1A2B3C" }}>
                 Здравствуйте, {PATIENT.name}! 👋
@@ -902,6 +916,8 @@ export function Dashboard({ onNavigate }: Props) {
                 Добро пожаловать в ваш личный кабинет
               </p>
             </div>
+            </FadeUpSection>
+            <FadeUpSection index={1} variant="card">
             <div
               className="rounded-xl p-4 flex items-start gap-3"
               style={{ backgroundColor: "#FFF8EC", border: "1px solid #FCDEA3" }}
@@ -914,7 +930,11 @@ export function Dashboard({ onNavigate }: Props) {
                 </div>
               </div>
             </div>
+            </FadeUpSection>
+            <FadeUpSection index={2} variant="card">
             <PatientWalletCard wallet={wallet} loading={loyaltyLoading} error={loyaltyError} />
+            </FadeUpSection>
+            <FadeUpSection index={3} variant="card">
             <LoyaltyLedgerCard
               title="История бонусных операций"
               entries={ledger}
@@ -923,37 +943,48 @@ export function Dashboard({ onNavigate }: Props) {
               emptyTitle="История бонусов пока пустая"
               emptyDescription="После первого начисления, списания или возврата операции появятся в этой карточке."
             />
+            </FadeUpSection>
+            <FadeUpSection index={4}>
             <div className="grid md:grid-cols-2 gap-5">
               <UpcomingAppointments onBook={() => handleNav("book")} />
               <PaymentsCard />
             </div>
+            </FadeUpSection>
+            <FadeUpSection index={5}>
             <ServicesCard />
+            </FadeUpSection>
           </div>
         );
       case "appointments":
         return (
+          <FadeUpSection index={0}>
           <div>
             <h1 style={{ fontWeight: 700, fontSize: "22px", color: "#1A2B3C", marginBottom: "20px" }}>Мои записи</h1>
             <AppointmentsTab />
           </div>
+          </FadeUpSection>
         );
       case "book":
         return (
+          <FadeUpSection index={0}>
           <div>
             <h1 style={{ fontWeight: 700, fontSize: "22px", color: "#1A2B3C", marginBottom: "20px" }}>
               Записаться на приём
             </h1>
             <BookTab />
           </div>
+          </FadeUpSection>
         );
       case "account":
         return (
+          <FadeUpSection index={0}>
           <div>
             <h1 style={{ fontWeight: 700, fontSize: "22px", color: "#1A2B3C", marginBottom: "20px" }}>
               Данные аккаунта
             </h1>
             <AccountTab />
           </div>
+          </FadeUpSection>
         );
       case "bonuses":
         return <BonusesGuideTab />;
@@ -961,6 +992,7 @@ export function Dashboard({ onNavigate }: Props) {
         return <FaqTab />;
       case "language":
         return (
+          <FadeUpSection index={0}>
           <div className="rounded-2xl p-6" style={{ backgroundColor: "#FFFFFF", border: "1px solid #E8EEF4" }}>
             <h1 style={{ fontWeight: 700, fontSize: "22px", color: "#1A2B3C", marginBottom: "20px" }}>
               Язык интерфейса
@@ -986,9 +1018,11 @@ export function Dashboard({ onNavigate }: Props) {
               </div>
             ))}
           </div>
+          </FadeUpSection>
         );
       case "theme":
         return (
+          <FadeUpSection index={0}>
           <div className="rounded-2xl p-6" style={{ backgroundColor: "#FFFFFF", border: "1px solid #E8EEF4" }}>
             <h1 style={{ fontWeight: 700, fontSize: "22px", color: "#1A2B3C", marginBottom: "20px" }}>
               Тема оформления
@@ -1014,6 +1048,7 @@ export function Dashboard({ onNavigate }: Props) {
               </div>
             ))}
           </div>
+          </FadeUpSection>
         );
       default:
         return null;

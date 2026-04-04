@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Page } from "../App";
 import { Header } from "./shared/Header";
 import { Footer } from "./shared/Footer";
+import { FadeUpSection } from "./motion/FadeUpSection";
 import {
   Eye,
   EyeOff,
@@ -41,6 +42,7 @@ export function PublicPage({ onNavigate }: Props) {
       <Header onNavigate={onNavigate} activePage="public" />
 
       {/* ───── HERO ───── */}
+      <FadeUpSection index={0} variant="hero">
       <section className="relative overflow-hidden">
         <div
           className="absolute inset-0"
@@ -107,8 +109,10 @@ export function PublicPage({ onNavigate }: Props) {
           </div>
         </div>
       </section>
+      </FadeUpSection>
 
       {/* ───── FEATURES ───── */}
+      <FadeUpSection index={1}>
       <section className="max-w-5xl mx-auto px-5 py-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
@@ -134,8 +138,10 @@ export function PublicPage({ onNavigate }: Props) {
           ))}
         </div>
       </section>
+      </FadeUpSection>
 
       {/* ───── QUICK NAV ───── */}
+      <FadeUpSection index={2}>
       <section className="max-w-5xl mx-auto px-5 pb-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
@@ -160,8 +166,10 @@ export function PublicPage({ onNavigate }: Props) {
           ))}
         </div>
       </section>
+      </FadeUpSection>
 
       {/* ───── AUTH ───── */}
+      <FadeUpSection index={3}>
       <section id="auth" className="max-w-5xl mx-auto px-5 pb-12">
         <div className="text-center mb-8">
           <h2 style={{ fontWeight: 700, fontSize: "clamp(20px, 3vw, 28px)", color: "#1A2B3C", marginBottom: "8px" }}>
@@ -370,6 +378,7 @@ export function PublicPage({ onNavigate }: Props) {
           </div>
         </div>
       </section>
+      </FadeUpSection>
 
       <Footer onNavigate={onNavigate} />
     </div>
