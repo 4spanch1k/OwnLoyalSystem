@@ -298,7 +298,7 @@ def upgrade() -> None:
         sa.ForeignKeyConstraint(
             ["tenant_id", "policy_version_id"],
             ["loyalty_policy_versions.tenant_id", "loyalty_policy_versions.id"],
-            name="fk_loyalty_policy_service_rules_tenant_policy_loyalty_policy_versions",
+            name="fk_lpsr_tenant_policy_versions",
         ),
         sa.PrimaryKeyConstraint("id", name="pk_loyalty_policy_service_rules"),
         sa.UniqueConstraint("tenant_id", "id", name="uq_loyalty_policy_service_rules_tenant_id_id"),

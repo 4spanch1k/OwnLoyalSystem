@@ -39,7 +39,7 @@ class LoyaltyManualAdjustment(Base, IdMixin, TenantScopedMixin):
         ForeignKeyConstraint(
             ["tenant_id", "ledger_entry_id"],
             ["loyalty_ledger_entries.tenant_id", "loyalty_ledger_entries.id"],
-            name="fk_loyalty_manual_adjustments_tenant_ledger_loyalty_ledger_entries",
+            name="fk_lma_tenant_ledger_entries",
         ),
         ForeignKeyConstraint(
             ["tenant_id", "actor_user_id"],

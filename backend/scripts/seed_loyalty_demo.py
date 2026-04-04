@@ -77,17 +77,30 @@ def seed_demo_dataset(db: Session) -> DemoSeedSummary:
 
     with db.begin():
         _ensure_tenant(db, now)
+        db.flush()
         _ensure_branch(db, now)
+        db.flush()
         _ensure_users_and_memberships(db, now)
+        db.flush()
         _ensure_patient(db, now)
+        db.flush()
         _ensure_visit(db, now)
+        db.flush()
         _ensure_program(db, now)
+        db.flush()
         _ensure_policy(db, now)
+        db.flush()
+        _activate_program_policy(db, now)
+        db.flush()
         _ensure_policy_rule(db, now)
+        db.flush()
         _assert_demo_patient_is_not_dirty(db)
         _ensure_wallet(db, now)
+        db.flush()
         _ensure_payment(db, now)
+        db.flush()
         _ensure_payment_line(db, now)
+        db.flush()
         _ensure_seeded_accrual_entry(db, now)
 
     return validate_demo_dataset(db)
@@ -376,7 +389,7 @@ def _ensure_program(db: Session, now: datetime) -> LoyaltyProgram:
             tenant_id=TENANT_ID,
             branch_id=None,
             status="active",
-            active_policy_version_id=POLICY_ID,
+            active_policy_version_id=None,
             created_at=now,
             updated_at=now,
         )
@@ -386,7 +399,7 @@ def _ensure_program(db: Session, now: datetime) -> LoyaltyProgram:
     program.tenant_id = TENANT_ID
     program.branch_id = None
     program.status = "active"
-    program.active_policy_version_id = POLICY_ID
+    program.active_policy_version_id = None
     program.updated_at = now
     return program
 
@@ -420,6 +433,16 @@ def _ensure_policy(db: Session, now: datetime) -> LoyaltyPolicyVersion:
     policy.effective_from = now
     policy.effective_to = None
     return policy
+
+
+def _activate_program_policy(db: Session, now: datetime) -> LoyaltyProgram:
+    program = db.get(LoyaltyProgram, PROGRAM_ID)
+    if program is None:
+        raise SeedConflictError("Cannot activate policy for demo program because the loyalty program was not created.")
+
+    program.active_policy_version_id = POLICY_ID
+    program.updated_at = now
+    return program
 
 
 def _ensure_policy_rule(db: Session, now: datetime) -> LoyaltyPolicyServiceRule:
