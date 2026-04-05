@@ -30,8 +30,8 @@ export function FadeUpSection({
   return (
     <motion.div
       className={className}
-      style={reduceMotion ? style : { ...style, willChange: "transform, opacity" }}
-      initial="hidden"
+      style={style}
+      initial={reduceMotion ? false : "hidden"}
       animate="visible"
       variants={reduceMotion ? REDUCED_SECTION_VARIANTS : preset.variants}
       transition={

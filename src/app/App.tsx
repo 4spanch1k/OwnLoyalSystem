@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { AnimatePresence } from "motion/react";
 import { PublicPage } from "./components/PublicPage";
 import { Dashboard } from "./components/Dashboard";
 import { ServicesPage } from "./components/ServicesPage";
@@ -50,8 +49,6 @@ export default function App() {
   })();
 
   return (
-    <AnimatePresence mode="wait" initial={false}>
-      <AnimatedPage key={page}>{currentPage}</AnimatedPage>
-    </AnimatePresence>
+    <AnimatedPage key={page}>{currentPage}</AnimatedPage>
   );
 }

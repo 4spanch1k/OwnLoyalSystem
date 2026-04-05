@@ -1,8 +1,8 @@
 export const MOTION_EASE = [0.22, 1, 0.36, 1] as const;
-export const STAGGER_DELAY_STEP = 0.06;
+export const STAGGER_DELAY_STEP = 0.03;
 
 export const PAGE_TRANSITION = {
-  duration: 0.32,
+  duration: 0.18,
   ease: MOTION_EASE,
 };
 
@@ -12,9 +12,9 @@ export const REDUCED_PAGE_TRANSITION = {
 };
 
 export const PAGE_VARIANTS = {
-  hidden: { opacity: 0, y: 18 },
+  hidden: { opacity: 0, y: 10 },
   visible: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: 10 },
+  exit: { opacity: 1, y: 0 },
 };
 
 export const REDUCED_PAGE_VARIANTS = {
@@ -26,41 +26,41 @@ export const REDUCED_PAGE_VARIANTS = {
 export const SECTION_MOTION_PRESETS = {
   hero: {
     variants: {
-      hidden: { opacity: 0, y: 18 },
+      hidden: { opacity: 0, y: 10 },
       visible: { opacity: 1, y: 0 },
     },
     transition: {
-      duration: 0.34,
+      duration: 0.2,
       ease: MOTION_EASE,
     },
   },
   section: {
     variants: {
-      hidden: { opacity: 0, y: 16 },
+      hidden: { opacity: 0, y: 8 },
       visible: { opacity: 1, y: 0 },
     },
     transition: {
-      duration: 0.28,
+      duration: 0.18,
       ease: MOTION_EASE,
     },
   },
   card: {
     variants: {
-      hidden: { opacity: 0, y: 14 },
+      hidden: { opacity: 0, y: 6 },
       visible: { opacity: 1, y: 0 },
     },
     transition: {
-      duration: 0.24,
+      duration: 0.16,
       ease: MOTION_EASE,
     },
   },
   form: {
     variants: {
-      hidden: { opacity: 0, y: 12 },
+      hidden: { opacity: 0, y: 6 },
       visible: { opacity: 1, y: 0 },
     },
     transition: {
-      duration: 0.22,
+      duration: 0.16,
       ease: MOTION_EASE,
     },
   },

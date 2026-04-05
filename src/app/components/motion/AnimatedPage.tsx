@@ -16,12 +16,10 @@ export function AnimatedPage({ children }: Props) {
 
   return (
     <motion.div
-      initial="hidden"
+      initial={reduceMotion ? false : "hidden"}
       animate="visible"
-      exit="exit"
       variants={reduceMotion ? REDUCED_PAGE_VARIANTS : PAGE_VARIANTS}
       transition={reduceMotion ? REDUCED_PAGE_TRANSITION : PAGE_TRANSITION}
-      style={reduceMotion ? undefined : { willChange: "transform, opacity" }}
     >
       {children}
     </motion.div>
