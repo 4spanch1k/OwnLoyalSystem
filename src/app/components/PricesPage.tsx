@@ -3,81 +3,18 @@ import { Page } from "../App";
 import { Header } from "./shared/Header";
 import { Footer } from "./shared/Footer";
 import { ArrowRight, Info, ChevronDown, ChevronUp } from "lucide-react";
+import { priceCategories } from "../services/demoClinicContent";
 
 interface Props {
   onNavigate: (page: Page) => void;
 }
 
-const PRICE_CATEGORIES = [
-  {
-    id: "prevention",
-    label: "Профилактика",
-    icon: "🦷",
-    items: [
-      { name: "Первичная консультация", price: "Бесплатно", note: "" },
-      { name: "Профессиональная чистка (ультразвук + Air Flow)", price: "3 000 – 5 000 ₽", note: "" },
-      { name: "Фторирование зубов", price: "1 200 – 2 000 ₽", note: "" },
-      { name: "Чистка зубного камня (1 зуб)", price: "300 – 500 ₽", note: "" },
-      { name: "Ортопантомограмма (панорамный снимок)", price: "900 – 1 200 ₽", note: "" },
-    ],
-  },
-  {
-    id: "treatment",
-    label: "Лечение",
-    icon: "🔬",
-    items: [
-      { name: "Лечение кариеса (световая пломба)", price: "4 500 – 8 000 ₽", note: "зависит от сложности" },
-      { name: "Лечение пульпита (1 канал)", price: "8 000 – 12 000 ₽", note: "" },
-      { name: "Лечение пульпита (3 канала)", price: "14 000 – 20 000 ₽", note: "" },
-      { name: "Удаление простого зуба", price: "2 500 – 4 000 ₽", note: "" },
-      { name: "Удаление сложного зуба (хирургия)", price: "5 000 – 9 000 ₽", note: "" },
-      { name: "Лечение под микроскопом", price: "от 12 000 ₽", note: "за зуб" },
-    ],
-  },
-  {
-    id: "ortho",
-    label: "Ортодонтия",
-    icon: "😁",
-    items: [
-      { name: "Консультация ортодонта", price: "Бесплатно", note: "" },
-      { name: "Металлические брекеты (полная система)", price: "55 000 – 75 000 ₽", note: "" },
-      { name: "Керамические брекеты (полная система)", price: "75 000 – 95 000 ₽", note: "" },
-      { name: "Сапфировые брекеты (полная система)", price: "95 000 – 120 000 ₽", note: "" },
-      { name: "Элайнеры (1 курс)", price: "от 80 000 ₽", note: "" },
-      { name: "Ретейнеры (после брекетов)", price: "5 000 – 8 000 ₽", note: "за одну челюсть" },
-    ],
-  },
-  {
-    id: "implant",
-    label: "Имплантация и протезирование",
-    icon: "🔩",
-    items: [
-      { name: "Имплант (под ключ)", price: "от 45 000 ₽", note: "включая коронку" },
-      { name: "Коронка металлокерамическая", price: "12 000 – 16 000 ₽", note: "" },
-      { name: "Коронка циркониевая", price: "18 000 – 28 000 ₽", note: "" },
-      { name: "Коронка E-max (безметалловая)", price: "22 000 – 32 000 ₽", note: "" },
-      { name: "Съёмный протез (акриловый)", price: "от 22 000 ₽", note: "" },
-    ],
-  },
-  {
-    id: "aesthetics",
-    label: "Эстетическая стоматология",
-    icon: "✨",
-    items: [
-      { name: "Отбеливание Zoom 4 (полный курс)", price: "12 000 – 18 000 ₽", note: "" },
-      { name: "Домашнее отбеливание (каппы + гель)", price: "5 000 – 8 000 ₽", note: "" },
-      { name: "Винир керамический (1 зуб)", price: "22 000 – 32 000 ₽", note: "" },
-      { name: "Скайс / украшение на зуб", price: "2 500 – 4 000 ₽", note: "" },
-    ],
-  },
-];
-
 export function PricesPage({ onNavigate }: Props) {
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
-    prevention: true,
+    diagnostics: true,
+    hygiene: false,
     treatment: false,
     ortho: false,
-    implant: false,
     aesthetics: false,
   });
 
@@ -111,7 +48,7 @@ export function PricesPage({ onNavigate }: Props) {
             Стоимость услуг клиники
           </h1>
           <p style={{ fontSize: "14px", color: "#4A6480", lineHeight: 1.7 }}>
-            Цены носят ознакомительный характер. Точная стоимость определяется на консультации после осмотра — это зависит от индивидуальной клинической картины. Первичный осмотр и консультация — бесплатно.
+            Мы показываем понятные диапазоны до визита, а точную сумму фиксируем после консультации и плана лечения. Это помогает спокойно обсуждать ортодонтию, виниры, гигиену и терапию без неприятных сюрпризов.
           </p>
         </div>
 
@@ -122,7 +59,7 @@ export function PricesPage({ onNavigate }: Props) {
         >
           <Info size={16} style={{ color: "#1B6CA8", marginTop: "2px", flexShrink: 0 }} />
           <div style={{ fontSize: "13px", color: "#1A2B3C", lineHeight: 1.6 }}>
-            <strong>Первичная консультация — бесплатно.</strong> Запишитесь к врачу, пройдите осмотр и получите точный план лечения с ценами. Мы не навязываем лишнего.
+            <strong>Точная стоимость определяется после консультации.</strong> До визита вы видите понятный ориентир, а на приеме получаете уже конкретный план лечения без скрытых доплат.
           </div>
         </div>
       </section>
@@ -130,7 +67,7 @@ export function PricesPage({ onNavigate }: Props) {
       {/* Price accordion */}
       <section className="max-w-5xl mx-auto px-5 pb-12">
         <div className="flex flex-col gap-3">
-          {PRICE_CATEGORIES.map((cat) => (
+          {priceCategories.map((cat) => (
             <div
               key={cat.id}
               className="rounded-2xl overflow-hidden"
@@ -198,10 +135,10 @@ export function PricesPage({ onNavigate }: Props) {
         >
           <div>
             <h2 style={{ fontWeight: 700, fontSize: "22px", color: "#FFFFFF", marginBottom: "8px" }}>
-              Точная стоимость — после консультации
+              Хотите понять бюджет лечения заранее?
             </h2>
             <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.7)" }}>
-              Запишитесь на бесплатный осмотр — врач составит план лечения и озвучит итоговую цену
+              Запишитесь на консультацию, чтобы получить понятный план и диапазон стоимости под ваш кейс
             </p>
           </div>
           <button

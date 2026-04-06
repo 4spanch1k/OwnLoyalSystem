@@ -4,6 +4,7 @@ import { Page } from "../App";
 import { Header } from "./shared/Header";
 import { Footer } from "./shared/Footer";
 import { FadeUpSection } from "./motion/FadeUpSection";
+import { demoClinicBrand, staffLoginContent } from "../services/demoClinicContent";
 
 interface Props {
   onNavigate: (page: Page) => void;
@@ -53,7 +54,7 @@ export function StaffLoginPage({ onNavigate }: Props) {
               Вход для сотрудников клиники
             </h1>
             <p style={{ fontSize: "14px", color: "#5E7B94", lineHeight: 1.7, marginBottom: "24px" }}>
-              Используйте корпоративный аккаунт, чтобы открыть внутренний кабинет и работать с пациентами,
+              Используйте корпоративный аккаунт, чтобы открыть внутренний кабинет {demoClinicBrand.name} и работать с пациентами,
               расписанием и бонусной системой.
             </p>
             <div className="flex flex-col gap-3">
@@ -115,7 +116,7 @@ export function StaffLoginPage({ onNavigate }: Props) {
                 <label style={{ fontSize: "13px", fontWeight: 500, color: "#4A6480" }}>Корпоративный email</label>
                 <input
                   type="email"
-                  placeholder="staff@asterdental.ru"
+                  placeholder={staffLoginContent.emailPlaceholder}
                   value={staffForm.email}
                   onChange={(event) => setStaffForm({ ...staffForm, email: event.target.value })}
                   className="w-full px-4 py-3 rounded-xl outline-none"

@@ -7,6 +7,7 @@ import { LoyaltyLedgerCard } from "./loyalty/LoyaltyLedgerCard";
 import { useManualAdjustment } from "../hooks/useManualAdjustment";
 import { usePatientLoyalty } from "../hooks/usePatientLoyalty";
 import { loyaltyPilotConfig } from "../services/loyaltyConfig";
+import { demoClinicBrand } from "../services/demoClinicContent";
 import { FadeUpSection } from "./motion/FadeUpSection";
 import {
   LayoutDashboard,
@@ -465,9 +466,9 @@ export function DoctorCabinet({ onNavigate }: Props) {
               className="w-7 h-7 rounded-lg flex items-center justify-center"
               style={{ backgroundColor: "#2A5A8A" }}
             >
-              <span style={{ color: "#fff", fontSize: "11px", fontWeight: 700 }}>A</span>
+              <span style={{ color: "#fff", fontSize: "11px", fontWeight: 700 }}>{demoClinicBrand.logoLetter}</span>
             </div>
-            <span style={{ fontWeight: 700, fontSize: "14px", color: "#FFFFFF" }}>Aster Dental</span>
+            <span style={{ fontWeight: 700, fontSize: "14px", color: "#FFFFFF" }}>{demoClinicBrand.name}</span>
             <span
               className="hidden sm:inline px-2 py-0.5 rounded-full"
               style={{ backgroundColor: "rgba(255,255,255,0.12)", color: "#7AAECA", fontSize: "11px", fontWeight: 500 }}

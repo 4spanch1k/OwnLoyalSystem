@@ -5,6 +5,7 @@ import { LoyaltyLedgerCard } from "./loyalty/LoyaltyLedgerCard";
 import { usePatientLoyalty } from "../hooks/usePatientLoyalty";
 import { loyaltyPilotConfig } from "../services/loyaltyConfig";
 import { FadeUpSection } from "./motion/FadeUpSection";
+import { demoClinicBrand } from "../services/demoClinicContent";
 import {
   LayoutDashboard,
   User,
@@ -325,7 +326,7 @@ function PaymentsCard() {
         <div>
           <div style={{ fontSize: "11px", color: "#6B8FA8" }}>Всего потрачено</div>
           <div style={{ fontSize: "20px", fontWeight: 700, color: "#1A2B3C" }}>
-            {total.toLocaleString("ru")} ₽
+            {total.toLocaleString("ru")} ₸
           </div>
         </div>
       </div>
@@ -342,7 +343,7 @@ function PaymentsCard() {
             </div>
             <div className="flex items-center gap-2">
               <span style={{ fontSize: "13px", fontWeight: 600, color: "#1A2B3C" }}>
-                {p.amount.toLocaleString("ru")} ₽
+                {p.amount.toLocaleString("ru")} ₸
               </span>
               <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ backgroundColor: "#E6F5ED" }}>
                 <Check size={10} color="#22A05B" />
@@ -721,7 +722,7 @@ function BonusesGuideTab() {
         <div className="max-w-xl relative z-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-4" style={{ backgroundColor: "rgba(255,255,255,0.14)" }}>
             <Gift size={14} color="#FFFFFF" />
-            <span style={{ fontSize: "12px", color: "#FFFFFF", fontWeight: 600 }}>Aster Bonus</span>
+            <span style={{ fontSize: "12px", color: "#FFFFFF", fontWeight: 600 }}>{demoClinicBrand.programName}</span>
           </div>
           <h1 style={{ fontWeight: 700, fontSize: "24px", lineHeight: 1.2, color: "#FFFFFF" }}>
             Бонусы работают просто:
@@ -806,7 +807,7 @@ function BonusesGuideTab() {
               <span style={{ fontWeight: 600, fontSize: "15px", color: "#1A2B3C" }}>Простой пример</span>
             </div>
             <div className="rounded-xl p-4" style={{ backgroundColor: "#F0F5FA" }}>
-              <div style={{ fontSize: "12px", color: "#6B8FA8", marginBottom: "8px" }}>Если вы оплатили лечение на 40 000 ₽</div>
+              <div style={{ fontSize: "12px", color: "#6B8FA8", marginBottom: "8px" }}>Если вы оплатили лечение на 40 000 ₸</div>
               <div style={{ fontSize: "24px", fontWeight: 700, color: "#1A2B3C" }}>2 000 бонусов</div>
               <div style={{ fontSize: "13px", color: "#4A6480", marginTop: "6px", lineHeight: 1.5 }}>
                 появятся на вашем счёте после подтверждения оплаты.
@@ -818,7 +819,7 @@ function BonusesGuideTab() {
             >
               <div style={{ fontSize: "13px", fontWeight: 600, color: "#8A5A00" }}>Как использовать</div>
               <div style={{ fontSize: "13px", color: "#A07030", marginTop: "6px", lineHeight: 1.55 }}>
-                Если следующий визит стоит 20 000 ₽, списать можно до 4 000 бонусов.
+                Если следующий визит стоит 20 000 ₸, списать можно до 4 000 бонусов.
                 Если у вас на счёте только 2 000, значит используете все 2 000.
               </div>
             </div>
@@ -1078,9 +1079,9 @@ export function Dashboard({ onNavigate }: Props) {
               className="w-7 h-7 rounded-lg flex items-center justify-center"
               style={{ backgroundColor: "#1B6CA8" }}
             >
-              <span style={{ color: "#fff", fontSize: "11px", fontWeight: 700 }}>A</span>
+              <span style={{ color: "#fff", fontSize: "11px", fontWeight: 700 }}>{demoClinicBrand.logoLetter}</span>
             </div>
-            <span style={{ fontWeight: 700, fontSize: "14px", color: "#1A2B3C" }}>Aster Dental</span>
+            <span style={{ fontWeight: 700, fontSize: "14px", color: "#1A2B3C" }}>{demoClinicBrand.name}</span>
           </button>
         </div>
         <div className="flex items-center gap-2">

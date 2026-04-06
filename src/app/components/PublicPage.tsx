@@ -14,9 +14,17 @@ import {
   ArrowRight,
   Check,
 } from "lucide-react";
+import { publicPageContent } from "../services/demoClinicContent";
 
 const CLINIC_IMAGE =
   "https://images.unsplash.com/photo-1704455306251-b4634215d98f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBkZW50YWwlMjBjbGluaWMlMjBpbnRlcmlvciUyMG1pbmltYWwlMjB3aGl0ZXxlbnwxfHx8fDE3NzQ5NTI3MDd8MA&ixlib=rb-4.1.0&q=80&w=1080";
+
+const FEATURE_ICONS = {
+  shield: <Shield size={18} />,
+  star: <Star size={18} />,
+  clock: <Clock size={18} />,
+  smile: <Smile size={18} />,
+} as const;
 
 interface Props {
   onNavigate: (page: Page) => void;
@@ -65,7 +73,7 @@ export function PublicPage({ onNavigate }: Props) {
             >
               <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "#4FC3D4" }} />
               <span style={{ color: "#C8E6F5", fontSize: "12px", fontWeight: 500 }}>
-                Принимаем пациентов ежедневно
+                {publicPageContent.heroTag}
               </span>
             </div>
             <h1
@@ -77,10 +85,10 @@ export function PublicPage({ onNavigate }: Props) {
                 marginBottom: "16px",
               }}
             >
-              Забота о вашей улыбке — наша главная задача
+              {publicPageContent.heroTitle}
             </h1>
             <p style={{ color: "#B8D4E8", fontSize: "15px", lineHeight: 1.7, marginBottom: "28px" }}>
-              Современная стоматология с опытными врачами, передовым оборудованием и индивидуальным подходом.
+              {publicPageContent.heroDescription}
             </p>
             <div className="flex flex-wrap gap-3">
               <button
@@ -88,7 +96,7 @@ export function PublicPage({ onNavigate }: Props) {
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl transition-all"
                 style={{ backgroundColor: "#FFFFFF", color: "#1B6CA8", fontSize: "14px", fontWeight: 600 }}
               >
-                Записаться на приём
+                {publicPageContent.heroPrimaryCta}
                 <ArrowRight size={16} />
               </button>
               <a
@@ -102,7 +110,7 @@ export function PublicPage({ onNavigate }: Props) {
                   border: "1px solid rgba(255,255,255,0.2)",
                 }}
               >
-                Войти в кабинет
+                {publicPageContent.heroSecondaryCta}
                 <ChevronDown size={16} />
               </a>
             </div>
@@ -115,12 +123,7 @@ export function PublicPage({ onNavigate }: Props) {
       <FadeUpSection index={1}>
       <section className="max-w-5xl mx-auto px-5 py-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { icon: <Shield size={18} />, label: "Безопасно", sub: "Стерильность и стандарты" },
-            { icon: <Star size={18} />, label: "4.9 / 5", sub: "Оценка пациентов" },
-            { icon: <Clock size={18} />, label: "Пн–Вс", sub: "Без выходных" },
-            { icon: <Smile size={18} />, label: "1 200+", sub: "Довольных пациентов" },
-          ].map((f, i) => (
+          {publicPageContent.features.map((f, i) => (
             <div
               key={i}
               className="rounded-2xl p-4 flex flex-col gap-2"
@@ -130,7 +133,7 @@ export function PublicPage({ onNavigate }: Props) {
                 className="w-9 h-9 rounded-xl flex items-center justify-center"
                 style={{ backgroundColor: "#EBF4FB", color: "#1B6CA8" }}
               >
-                {f.icon}
+                {FEATURE_ICONS[f.icon]}
               </div>
               <div style={{ fontWeight: 600, fontSize: "15px", color: "#1A2B3C" }}>{f.label}</div>
               <div style={{ fontSize: "12px", color: "#6B8FA8" }}>{f.sub}</div>
@@ -144,15 +147,10 @@ export function PublicPage({ onNavigate }: Props) {
       <FadeUpSection index={2}>
       <section className="max-w-5xl mx-auto px-5 pb-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {[
-            { label: "Наши услуги", sub: "Полный спектр лечения", page: "services" as Page, icon: "🦷" },
-            { label: "Врачи клиники", sub: "Опытные специалисты", page: "doctors" as Page, icon: "👨‍⚕️" },
-            { label: "Цены", sub: "Прозрачная стоимость", page: "prices" as Page, icon: "💳" },
-            { label: "Контакты", sub: "Адрес и расписание", page: "contacts" as Page, icon: "📍" },
-          ].map((item) => (
+          {publicPageContent.quickNav.map((item) => (
             <button
               key={item.page}
-              onClick={() => onNavigate(item.page)}
+              onClick={() => onNavigate(item.page as Page)}
               className="rounded-2xl p-4 text-left flex flex-col gap-2 transition-all group"
               style={{ backgroundColor: "#FFFFFF", border: "1px solid #E8EEF4" }}
             >
@@ -358,12 +356,7 @@ export function PublicPage({ onNavigate }: Props) {
               <div style={{ fontSize: "13px", fontWeight: 600, color: "#1A2B3C", marginBottom: "12px" }}>
                 Преимущества личного кабинета
               </div>
-              {[
-                "Онлайн-запись в 2 клика",
-                "История посещений и платежей",
-                "Бонусная программа",
-                "Напоминания о визитах",
-              ].map((b) => (
+              {publicPageContent.authBenefits.map((b) => (
                 <div key={b} className="flex items-center gap-2.5 py-2" style={{ borderBottom: "1px solid #D0E6F5" }}>
                   <div
                     className="w-5 h-5 rounded-full flex items-center justify-center shrink-0"

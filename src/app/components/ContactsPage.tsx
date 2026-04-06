@@ -2,6 +2,7 @@ import { Page } from "../App";
 import { Header } from "./shared/Header";
 import { Footer } from "./shared/Footer";
 import { MapPin, Phone, Mail, MessageCircle, Clock, Instagram, ArrowRight } from "lucide-react";
+import { demoClinicBrand, demoClinicContacts } from "../services/demoClinicContent";
 
 interface Props {
   onNavigate: (page: Page) => void;
@@ -34,7 +35,7 @@ export function ContactsPage({ onNavigate }: Props) {
             Контакты и адрес клиники
           </h1>
           <p style={{ fontSize: "14px", color: "#4A6480", lineHeight: 1.7 }}>
-            Мы находимся в самом центре Москвы, в 5 минутах ходьбы от метро.
+            Мы находимся в Алматы и держим быстрый контакт через WhatsApp и Instagram, чтобы пациент мог легко записаться и уточнить детали.
           </p>
         </div>
       </section>
@@ -82,9 +83,9 @@ export function ContactsPage({ onNavigate }: Props) {
                   className="px-4 py-2.5 rounded-xl text-center shadow-md"
                   style={{ backgroundColor: "#FFFFFF" }}
                 >
-                  <div style={{ fontWeight: 700, fontSize: "14px", color: "#1A2B3C" }}>Aster Dental</div>
+                  <div style={{ fontWeight: 700, fontSize: "14px", color: "#1A2B3C" }}>{demoClinicBrand.name}</div>
                   <div style={{ fontSize: "12px", color: "#6B8FA8", marginTop: "2px" }}>
-                    ул. Пушкина, д. 12
+                    {demoClinicContacts.addressLine}
                   </div>
                 </div>
               </div>
@@ -92,7 +93,7 @@ export function ContactsPage({ onNavigate }: Props) {
                 className="absolute bottom-4 right-4 px-3 py-1.5 rounded-lg"
                 style={{ backgroundColor: "rgba(255,255,255,0.9)", fontSize: "11px", color: "#4A6480" }}
               >
-                м. Чистые пруды — 5 мин
+                {demoClinicContacts.mapNote}
               </div>
             </div>
           </div>
@@ -114,10 +115,10 @@ export function ContactsPage({ onNavigate }: Props) {
                 <span style={{ fontWeight: 600, fontSize: "15px", color: "#1A2B3C" }}>Адрес</span>
               </div>
               <p style={{ fontSize: "14px", color: "#1A2B3C", fontWeight: 500, marginBottom: "6px" }}>
-                г. Москва, ул. Пушкина, д. 12, стр. 1
+                {demoClinicBrand.city}, {demoClinicContacts.addressLine}
               </p>
               <p style={{ fontSize: "13px", color: "#6B8FA8", lineHeight: 1.6 }}>
-                м. Чистые пруды (Сокольническая линия), 5 минут пешком. Выход № 2, затем по ул. Пушкина направо.
+                {demoClinicContacts.addressDetails}
               </p>
             </div>
 
@@ -132,13 +133,13 @@ export function ContactsPage({ onNavigate }: Props) {
                 </div>
                 <span style={{ fontWeight: 600, fontSize: "15px", color: "#1A2B3C" }}>Телефон</span>
               </div>
-              <a href="tel:+78001234567" style={{ fontSize: "20px", fontWeight: 700, color: "#1B6CA8" }}>
-                +7 (800) 123-45-67
+              <a href={`tel:${demoClinicContacts.phoneHref}`} style={{ fontSize: "20px", fontWeight: 700, color: "#1B6CA8" }}>
+                {demoClinicContacts.phoneDisplay}
               </a>
-              <p style={{ fontSize: "12px", color: "#6B8FA8", marginTop: "4px" }}>Бесплатный звонок по России</p>
+              <p style={{ fontSize: "12px", color: "#6B8FA8", marginTop: "4px" }}>Быстрый ответ в рабочее время</p>
               <div className="flex gap-2 mt-4">
                 <a
-                  href="https://wa.me/78001234567"
+                  href={demoClinicContacts.whatsappUrl}
                   className="flex items-center gap-2 px-4 py-2 rounded-xl transition-all"
                   style={{ backgroundColor: "#E8F5E9", color: "#1B7A3E", fontSize: "13px", fontWeight: 500 }}
                 >
@@ -146,7 +147,7 @@ export function ContactsPage({ onNavigate }: Props) {
                   WhatsApp
                 </a>
                 <a
-                  href="https://instagram.com"
+                  href={demoClinicContacts.instagramUrl}
                   className="flex items-center gap-2 px-4 py-2 rounded-xl transition-all"
                   style={{ backgroundColor: "#FFF0F8", color: "#C2185B", fontSize: "13px", fontWeight: 500 }}
                 >
@@ -167,8 +168,8 @@ export function ContactsPage({ onNavigate }: Props) {
                 </div>
                 <span style={{ fontWeight: 600, fontSize: "15px", color: "#1A2B3C" }}>Email</span>
               </div>
-              <a href="mailto:info@asterdental.ru" style={{ fontSize: "15px", fontWeight: 600, color: "#1B6CA8" }}>
-                info@asterdental.ru
+              <a href={`mailto:${demoClinicContacts.email}`} style={{ fontSize: "15px", fontWeight: 600, color: "#1B6CA8" }}>
+                {demoClinicContacts.email}
               </a>
               <p style={{ fontSize: "12px", color: "#6B8FA8", marginTop: "4px" }}>Ответим в течение 2 часов</p>
             </div>
@@ -185,11 +186,7 @@ export function ContactsPage({ onNavigate }: Props) {
                 <span style={{ fontWeight: 600, fontSize: "15px", color: "#1A2B3C" }}>График работы</span>
               </div>
               <div className="flex flex-col gap-2.5">
-                {[
-                  { days: "Понедельник — Пятница", hours: "09:00 — 20:00" },
-                  { days: "Суббота", hours: "09:00 — 18:00" },
-                  { days: "Воскресенье", hours: "10:00 — 16:00" },
-                ].map((s, i) => (
+                {demoClinicContacts.schedule.map((s, i) => (
                   <div key={i} className="flex items-center justify-between">
                     <span style={{ fontSize: "13px", color: "#4A6480" }}>{s.days}</span>
                     <span style={{ fontSize: "13px", fontWeight: 600, color: "#1A2B3C" }}>{s.hours}</span>
@@ -210,10 +207,10 @@ export function ContactsPage({ onNavigate }: Props) {
           >
             <div>
               <h2 style={{ fontWeight: 700, fontSize: "22px", color: "#FFFFFF", marginBottom: "8px" }}>
-                Хотите записаться к нам?
+                Хотите прийти на консультацию?
               </h2>
               <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.7)" }}>
-                Первичная консультация — бесплатно. Без очередей, удобное время.
+                Напишите нам в WhatsApp или оставьте заявку онлайн — подберем удобное время и объясним следующий шаг.
               </p>
             </div>
             <button

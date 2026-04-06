@@ -2,61 +2,11 @@ import { Page } from "../App";
 import { Header } from "./shared/Header";
 import { Footer } from "./shared/Footer";
 import { ArrowRight, Star, Award, Clock } from "lucide-react";
+import { clinicDoctors, doctorStats } from "../services/demoClinicContent";
 
 interface Props {
   onNavigate: (page: Page) => void;
 }
-
-const DOCTORS = [
-  {
-    id: 1,
-    name: "Марина Соколова",
-    role: "Терапевт, Пародонтолог",
-    experience: "12 лет",
-    rating: 4.9,
-    reviews: 134,
-    photo: "https://images.unsplash.com/photo-1734002886107-168181bcd6a1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmZW1hbGUlMjBkb2N0b3IlMjBzbWlsaW5nJTIwbWVkaWNhbCUyMHByb2Zlc3Npb25hbHxlbnwxfHx8fDE3NzQ5NTYzNzV8MA&ixlib=rb-4.1.0&q=80&w=400",
-    desc: "Специализируется на лечении кариеса и заболеваний дёсен. Работает под микроскопом. Мягкий подход, особенно с тревожными пациентами.",
-    education: "МГМСУ им. Евдокимова, 2011",
-    specialties: ["Кариес", "Пародонтология", "Эндодонтия"],
-  },
-  {
-    id: 2,
-    name: "Дмитрий Волков",
-    role: "Ортодонт",
-    experience: "9 лет",
-    rating: 4.8,
-    reviews: 89,
-    photo: "https://images.unsplash.com/photo-1631596577204-53ad0d6e6978?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYWxlJTIwb3J0aG9kb250aXN0JTIwZGVudGFsJTIwc3VyZ2VvbiUyMHBvcnRyYWl0fGVufDF8fHx8MTc3NDk1NjM3NXww&ixlib=rb-4.1.0&q=80&w=400",
-    desc: "Эксперт по исправлению прикуса у детей и взрослых. Работает с брекетами и элайнерами. Индивидуальный план для каждого пациента.",
-    education: "Первый МГМУ им. Сеченова, 2014",
-    specialties: ["Брекеты", "Элайнеры", "Прикус детей"],
-  },
-  {
-    id: 3,
-    name: "Елена Кравцова",
-    role: "Гигиенист, Терапевт",
-    experience: "7 лет",
-    rating: 5.0,
-    reviews: 67,
-    photo: "https://images.unsplash.com/photo-1753487050317-919a2b26a6ed?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3b21hbiUyMGh5Z2llbmlzdCUyMGRlbnRhbCUyMGNsaW5pYyUyMHdoaXRlJTIwdW5pZm9ybXxlbnwxfHx8fDE3NzQ5NTYzODl8MA&ixlib=rb-4.1.0&q=80&w=400",
-    desc: "Мастер профессиональной гигиены полости рта. Painless-техника чистки и фторирования. Рекомендует эффективный домашний уход.",
-    education: "РУДН, Медицинский институт, 2016",
-    specialties: ["Профчистка", "Air Flow", "Фторирование"],
-  },
-  {
-    id: 4,
-    name: "Игорь Петров",
-    role: "Хирург, Имплантолог",
-    experience: "15 лет",
-    rating: 4.9,
-    reviews: 211,
-    photo: "https://images.unsplash.com/photo-1588776814546-daab30f310ce?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZW50aXN0JTIwZG9jdG9yJTIwcHJvZmVzc2lvbmFsJTIwcG9ydHJhaXQlMjB3aGl0ZSUyMGNvYXR8ZW58MXx8fHwxNzc0OTU2MzcwfDA&ixlib=rb-4.1.0&q=80&w=400",
-    desc: "Ведущий имплантолог клиники. Более 1 000 успешных имплантаций. Работает с системами Nobel, Straumann. Пожизненная гарантия на имплант.",
-    education: "МГМСУ им. Евдокимова, 2009",
-    specialties: ["Имплантация", "Хирургия", "Костная пластика"],
-  },
-];
 
 export function DoctorsPage({ onNavigate }: Props) {
   return (
@@ -82,20 +32,16 @@ export function DoctorsPage({ onNavigate }: Props) {
               marginBottom: "14px",
             }}
           >
-            Врачи, которым доверяют
+            Команда, которая ведет пациента от идеи красивой улыбки до аккуратного результата
           </h1>
           <p style={{ fontSize: "14px", color: "#4A6480", lineHeight: 1.7 }}>
-            Все специалисты клиники имеют действующие сертификаты, регулярно проходят повышение квалификации и работают на современном оборудовании.
+            В Lab Smile акцент сделан на ортодонтию, эстетическую терапию, smile design и профилактику, чтобы у пациента был цельный маршрут лечения.
           </p>
         </div>
 
         {/* Stats row */}
         <div className="grid grid-cols-3 gap-4 mt-8 max-w-lg">
-          {[
-            { value: "4", label: "специалиста" },
-            { value: "43", label: "года опыта суммарно" },
-            { value: "1 200+", label: "довольных пациентов" },
-          ].map((s, i) => (
+          {doctorStats.map((s, i) => (
             <div key={i} className="rounded-2xl p-4 text-center" style={{ backgroundColor: "#FFFFFF", border: "1px solid #E8EEF4" }}>
               <div style={{ fontSize: "22px", fontWeight: 700, color: "#1B6CA8" }}>{s.value}</div>
               <div style={{ fontSize: "11px", color: "#6B8FA8", marginTop: "3px" }}>{s.label}</div>
@@ -107,7 +53,7 @@ export function DoctorsPage({ onNavigate }: Props) {
       {/* Doctors grid */}
       <section className="max-w-5xl mx-auto px-5 pb-14">
         <div className="grid md:grid-cols-2 gap-5">
-          {DOCTORS.map((doc) => (
+          {clinicDoctors.map((doc) => (
             <div
               key={doc.id}
               className="rounded-3xl overflow-hidden"
@@ -199,8 +145,8 @@ export function DoctorsPage({ onNavigate }: Props) {
           <h2 style={{ fontWeight: 700, fontSize: "22px", color: "#1A2B3C", marginBottom: "10px" }}>
             Не знаете, к кому записаться?
           </h2>
-          <p style={{ fontSize: "14px", color: "#6B8FA8", marginBottom: "24px" }}>
-            Запишитесь на первичный осмотр — мы сами направим вас к нужному специалисту бесплатно
+            <p style={{ fontSize: "14px", color: "#6B8FA8", marginBottom: "24px" }}>
+            Если не уверены, с чего начать, приходите на первичную консультацию — подберем понятный следующий шаг без лишней сложности
           </p>
           <button
             onClick={() => onNavigate("booking")}

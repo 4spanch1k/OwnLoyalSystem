@@ -3,28 +3,13 @@ import { Page } from "../App";
 import { Header } from "./shared/Header";
 import { Footer } from "./shared/Footer";
 import { Check, ChevronRight, ChevronLeft, Calendar, Clock, User, Phone, Mail } from "lucide-react";
+import { bookingDoctors, bookingServices, demoClinicBrand } from "../services/demoClinicContent";
 
 interface Props {
   onNavigate: (page: Page) => void;
 }
 
 type Step = 1 | 2 | 3 | 4;
-
-const SERVICES = [
-  { id: "consult", name: "Первичная консультация", price: "Бесплатно", duration: "30 мин", icon: "💬" },
-  { id: "cleaning", name: "Профессиональная чистка", price: "от 3 000 ₽", duration: "60 мин", icon: "✨" },
-  { id: "caries", name: "Лечение кариеса", price: "от 4 500 ₽", duration: "60 мин", icon: "🔬" },
-  { id: "whitening", name: "Отбеливание зубов", price: "от 12 000 ₽", duration: "90 мин", icon: "🌟" },
-  { id: "ortho", name: "Консультация ортодонта", price: "Бесплатно", duration: "45 мин", icon: "😁" },
-  { id: "implant", name: "Консультация имплантолога", price: "Бесплатно", duration: "45 мин", icon: "🔩" },
-];
-
-const DOCTORS = [
-  { id: 1, name: "Марина Соколова", role: "Терапевт, Пародонтолог", available: true },
-  { id: 2, name: "Дмитрий Волков", role: "Ортодонт", available: true },
-  { id: 3, name: "Елена Кравцова", role: "Гигиенист", available: true },
-  { id: 4, name: "Игорь Петров", role: "Хирург, Имплантолог", available: true },
-];
 
 const DATES = [
   { date: "7 апр", day: "Пн", slots: 5 },
@@ -93,8 +78,8 @@ export function BookingPage({ onNavigate }: Props) {
               style={{ backgroundColor: "#F7F9FC" }}
             >
               {[
-                { label: "Услуга", value: SERVICES.find((s) => s.id === selected.service)?.name },
-                { label: "Врач", value: DOCTORS.find((d) => String(d.id) === selected.doctor)?.name },
+                { label: "Услуга", value: bookingServices.find((s) => s.id === selected.service)?.name },
+                { label: "Врач", value: bookingDoctors.find((d) => String(d.id) === selected.doctor)?.name },
                 { label: "Дата", value: `${selected.date}, ${selected.time}` },
                 { label: "Пациент", value: selected.name },
               ].map((r) => (
@@ -138,7 +123,7 @@ export function BookingPage({ onNavigate }: Props) {
             Запись на приём
           </h1>
           <p style={{ fontSize: "13px", color: "#6B8FA8" }}>
-            Заполните форму — мы подтвердим запись в течение 15 минут
+            Оставьте заявку, и {demoClinicBrand.name} подтвердит запись в рабочее время
           </p>
         </div>
 
@@ -194,10 +179,10 @@ export function BookingPage({ onNavigate }: Props) {
               Выберите услугу
             </h2>
             <p style={{ fontSize: "13px", color: "#6B8FA8", marginBottom: "20px" }}>
-              Если не знаете что выбрать — выберите «Первичная консультация»
+              Если не уверены в формате лечения, начните с первичной консультации
             </p>
             <div className="grid sm:grid-cols-2 gap-3">
-              {SERVICES.map((s) => (
+              {bookingServices.map((s) => (
                 <button
                   key={s.id}
                   onClick={() => update("service", s.id)}
@@ -257,7 +242,7 @@ export function BookingPage({ onNavigate }: Props) {
                 </div>
                 {selected.doctor === "any" && <Check size={15} style={{ color: "#1B6CA8", marginLeft: "auto" }} />}
               </button>
-              {DOCTORS.map((doc) => (
+              {bookingDoctors.map((doc) => (
                 <button
                   key={doc.id}
                   onClick={() => update("doctor", String(doc.id))}
@@ -466,8 +451,8 @@ export function BookingPage({ onNavigate }: Props) {
                 Сводка записи
               </div>
               {[
-                { label: "Услуга", value: SERVICES.find((s) => s.id === selected.service)?.name },
-                { label: "Врач", value: selected.doctor === "any" ? "Любой доступный" : DOCTORS.find((d) => String(d.id) === selected.doctor)?.name },
+                { label: "Услуга", value: bookingServices.find((s) => s.id === selected.service)?.name },
+                { label: "Врач", value: selected.doctor === "any" ? "Любой доступный" : bookingDoctors.find((d) => String(d.id) === selected.doctor)?.name },
                 { label: "Дата и время", value: `${selected.date}, ${selected.time}` },
               ].map((r) => (
                 <div key={r.label} className="flex items-center justify-between py-2" style={{ borderBottom: "1px solid #D0E6F5" }}>

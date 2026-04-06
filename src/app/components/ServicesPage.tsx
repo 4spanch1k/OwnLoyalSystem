@@ -11,108 +11,25 @@ import {
   ArrowRight,
   Check,
 } from "lucide-react";
+import {
+  clinicServices,
+  demoClinicBrand,
+  serviceAdvantages,
+  serviceCategories,
+} from "../services/demoClinicContent";
 
 interface Props {
   onNavigate: (page: Page) => void;
 }
 
-const CATEGORIES = [
-  { id: "all", label: "Все услуги" },
-  { id: "prevention", label: "Профилактика" },
-  { id: "treatment", label: "Лечение" },
-  { id: "ortho", label: "Ортодонтия" },
-  { id: "implant", label: "Имплантация" },
-  { id: "aesthetics", label: "Эстетика" },
-];
-
-const SERVICES = [
-  {
-    id: 1, category: "prevention",
-    icon: "🦷", name: "Профессиональная чистка",
-    desc: "Ультразвуковое удаление зубного камня и налёта, полировка, фторирование. Рекомендуется каждые 6 месяцев.",
-    price: "от 3 000 ₽", duration: "60 мин",
-    tags: ["Профилактика", "Безболезненно"],
-  },
-  {
-    id: 2, category: "prevention",
-    icon: "💧", name: "Фторирование зубов",
-    desc: "Нанесение фторсодержащего лака для укрепления эмали и защиты от кариеса.",
-    price: "от 1 200 ₽", duration: "30 мин",
-    tags: ["Профилактика"],
-  },
-  {
-    id: 3, category: "treatment",
-    icon: "🔬", name: "Лечение кариеса",
-    desc: "Современное лечение кариеса с применением световых пломб. Работаем с зубами любой сложности.",
-    price: "от 4 500 ₽", duration: "45–90 мин",
-    tags: ["Лечение", "Анестезия"],
-  },
-  {
-    id: 4, category: "treatment",
-    icon: "🫀", name: "Лечение пульпита",
-    desc: "Удаление воспалённого нерва, очистка каналов, надёжная пломбировка под микроскопом.",
-    price: "от 8 000 ₽", duration: "90–120 мин",
-    tags: ["Лечение", "Под микроскопом"],
-  },
-  {
-    id: 5, category: "ortho",
-    icon: "😁", name: "Брекеты",
-    desc: "Металлические, керамические и сапфировые брекеты. Исправление прикуса любой сложности.",
-    price: "от 55 000 ₽", duration: "12–24 мес",
-    tags: ["Ортодонтия"],
-  },
-  {
-    id: 6, category: "ortho",
-    icon: "✨", name: "Элайнеры",
-    desc: "Прозрачные съёмные капы для выравнивания зубов. Незаметны и удобны в использовании.",
-    price: "от 80 000 ₽", duration: "12–18 мес",
-    tags: ["Ортодонтия", "Незаметно"],
-  },
-  {
-    id: 7, category: "implant",
-    icon: "🔩", name: "Имплантация зубов",
-    desc: "Установка титановых имплантов ведущих производителей. Пожизненная гарантия на имплант.",
-    price: "от 45 000 ₽", duration: "1–2 визита",
-    tags: ["Имплантация", "Гарантия"],
-  },
-  {
-    id: 8, category: "implant",
-    icon: "👑", name: "Зубные коронки",
-    desc: "Керамические, металлокерамические и циркониевые коронки. Эстетика и долговечность.",
-    price: "от 18 000 ₽", duration: "2–3 визита",
-    tags: ["Имплантация", "Эстетика"],
-  },
-  {
-    id: 9, category: "aesthetics",
-    icon: "🌟", name: "Отбеливание зубов",
-    desc: "Профессиональное отбеливание системой Zoom 4. Эффект осветления до 8 тонов за 1 визит.",
-    price: "от 12 000 ₽", duration: "90 мин",
-    tags: ["Эстетика", "Быстрый результат"],
-  },
-  {
-    id: 10, category: "aesthetics",
-    icon: "💎", name: "Виниры",
-    desc: "Тонкие керамические накладки для создания голливудской улыбки. Маскируют дефекты эмали.",
-    price: "от 22 000 ₽", duration: "2 визита",
-    tags: ["Эстетика", "Трансформация"],
-  },
-];
-
-const ADVANTAGES = [
-  { icon: <Shield size={20} />, title: "Лицензированная клиника", desc: "Все врачи имеют действующие сертификаты и проходят регулярное обучение" },
-  { icon: <Star size={20} />, title: "Современное оборудование", desc: "Работаем на оборудовании ведущих европейских производителей" },
-  { icon: <Clock size={20} />, title: "Без очередей", desc: "Запись онлайн, точное время, уважение к вашему расписанию" },
-  { icon: <Smile size={20} />, title: "Безболезненно", desc: "Используем современную анестезию — больно не будет" },
-  { icon: <Check size={20} />, title: "Гарантия на работы", desc: "На все выполненные работы предоставляется официальная гарантия" },
-  { icon: <Shield size={20} />, title: "Стерильность", desc: "Строгое соблюдение стандартов стерилизации и инфекционного контроля" },
-];
-
 export function ServicesPage({ onNavigate }: Props) {
   const [activeCategory, setActiveCategory] = useState("all");
 
   const filtered = activeCategory === "all"
-    ? SERVICES
-    : SERVICES.filter((s) => s.category === activeCategory);
+    ? clinicServices
+    : clinicServices.filter((s) => s.category === activeCategory);
+
+  const advantageIcons = [Shield, Star, Clock, Smile, Check, Shield];
 
   return (
     <div style={{ fontFamily: "'Inter', sans-serif", backgroundColor: "#F7F9FC", color: "#1A2B3C" }}>
@@ -129,7 +46,7 @@ export function ServicesPage({ onNavigate }: Props) {
             style={{ backgroundColor: "rgba(255,255,255,0.12)" }}
           >
             <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "#4FC3D4" }} />
-            <span style={{ color: "#C8E6F5", fontSize: "12px", fontWeight: 500 }}>Aster Dental</span>
+            <span style={{ color: "#C8E6F5", fontSize: "12px", fontWeight: 500 }}>{demoClinicBrand.name}</span>
           </div>
           <h1
             style={{
@@ -141,10 +58,10 @@ export function ServicesPage({ onNavigate }: Props) {
               maxWidth: "520px",
             }}
           >
-            Полный спектр стоматологических услуг
+            Ортодонтия, эстетика и лечение, где пациенту заранее понятен путь к результату
           </h1>
           <p style={{ color: "#B8D4E8", fontSize: "15px", lineHeight: 1.7, maxWidth: "500px", marginBottom: "24px" }}>
-            Профилактика, лечение, ортодонтия, имплантация — всё в одной клинике. Без направлений и долгого ожидания.
+            Lab Smile собран вокруг улыбки как результата: консультация, гигиена, лечение, брекеты, элайнеры, виниры и реставрации в одном спокойном маршруте.
           </p>
           <button
             onClick={() => onNavigate("booking")}
@@ -160,7 +77,7 @@ export function ServicesPage({ onNavigate }: Props) {
       {/* Category Filter */}
       <section className="max-w-5xl mx-auto px-5 py-8">
         <div className="flex gap-2 flex-wrap">
-          {CATEGORIES.map((cat) => (
+          {serviceCategories.map((cat) => (
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
@@ -235,25 +152,29 @@ export function ServicesPage({ onNavigate }: Props) {
         <div className="max-w-5xl mx-auto px-5 py-14">
           <div className="text-center mb-10">
             <h2 style={{ fontWeight: 700, fontSize: "clamp(20px, 3vw, 28px)", color: "#1A2B3C", marginBottom: "8px" }}>
-              Почему пациенты выбирают нас
+              Почему этот формат клиники удобен пациенту
             </h2>
             <p style={{ fontSize: "14px", color: "#6B8FA8" }}>
-              Мы создаём условия, в которых лечиться комфортно и безопасно
+              Не просто список услуг, а понятная система лечения и эстетики улыбки
             </p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
-            {ADVANTAGES.map((a, i) => (
-              <div key={i} className="flex flex-col gap-3">
-                <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center"
-                  style={{ backgroundColor: "#EBF4FB", color: "#1B6CA8" }}
-                >
-                  {a.icon}
+            {serviceAdvantages.map((a, i) => {
+              const Icon = advantageIcons[i] ?? Shield;
+
+              return (
+                <div key={i} className="flex flex-col gap-3">
+                  <div
+                    className="w-10 h-10 rounded-xl flex items-center justify-center"
+                    style={{ backgroundColor: "#EBF4FB", color: "#1B6CA8" }}
+                  >
+                    <Icon size={20} />
+                  </div>
+                  <div style={{ fontWeight: 600, fontSize: "14px", color: "#1A2B3C" }}>{a.title}</div>
+                  <div style={{ fontSize: "13px", color: "#6B8FA8", lineHeight: 1.6 }}>{a.desc}</div>
                 </div>
-                <div style={{ fontWeight: 600, fontSize: "14px", color: "#1A2B3C" }}>{a.title}</div>
-                <div style={{ fontSize: "13px", color: "#6B8FA8", lineHeight: 1.6 }}>{a.desc}</div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -274,10 +195,10 @@ export function ServicesPage({ onNavigate }: Props) {
           />
           <div className="relative">
             <h2 style={{ fontWeight: 700, fontSize: "clamp(20px, 3vw, 28px)", color: "#FFFFFF", marginBottom: "12px" }}>
-              Готовы начать лечение?
+              Хотите собрать понятный план лечения?
             </h2>
             <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.75)", marginBottom: "24px" }}>
-              Запишитесь на консультацию — это бесплатно и ни к чему не обязывает
+              Запишитесь на консультацию и начните с аккуратной диагностики без лишних шагов и скрытых условий
             </p>
             <button
               onClick={() => onNavigate("booking")}

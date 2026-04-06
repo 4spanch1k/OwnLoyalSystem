@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Page } from "../../App";
+import { demoClinicBrand } from "../../services/demoClinicContent";
 
 interface Props {
   onNavigate: (page: Page) => void;
@@ -32,14 +33,16 @@ export function Header({ onNavigate, activePage }: Props) {
             className="w-8 h-8 rounded-lg flex items-center justify-center"
             style={{ backgroundColor: "#1B6CA8" }}
           >
-            <span style={{ color: "#fff", fontSize: "13px", fontWeight: 700, letterSpacing: "0.5px" }}>A</span>
+            <span style={{ color: "#fff", fontSize: "13px", fontWeight: 700, letterSpacing: "0.5px" }}>
+              {demoClinicBrand.logoLetter}
+            </span>
           </div>
           <div>
             <div style={{ fontWeight: 700, fontSize: "16px", color: "#1A2B3C", letterSpacing: "0.3px" }}>
-              Aster Dental
+              {demoClinicBrand.name}
             </div>
             <div style={{ fontSize: "10px", color: "#6B8FA8", fontWeight: 400, marginTop: "-2px" }}>
-              стоматологическая клиника
+              {demoClinicBrand.subtitle}
             </div>
           </div>
         </button>
